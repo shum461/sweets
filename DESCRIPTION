@@ -2,8 +2,7 @@ Package: sweets
 Title: Disposition Tables and Listings
 Version: 0.0.0.9000
 Authors@R: 
-    person("Steve", Hummel", , "steve.hummel@simulations-plus.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Steve", "Hummel", ,"steve.hummel@simulations-plus.com", role = c("aut", "cre"))
 Description: Disposition Tables and Listings.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
