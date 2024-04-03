@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Steve’s Workflow for Enumerating Elegant Text listings and SAS
-dispositions
+**S**teve’s **W**orkflow for **E**numerating **E**legant **T**ext
+listings and **S**AS dispositions
 
 ## Installation
 
