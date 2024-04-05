@@ -170,21 +170,6 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
     dplyr::group_by(dplyr::across({{group_vars}}))
 
 
-
-#
-#   if(keeps==-Inf) {
-#     df_both <- df_deletions %>%
-#       dplyr::arrange(DELFN) %>%
-#       dplyr::mutate(KEEPFLG = 0)
-#
-#   } else{
-#     df_both <- df_deletions %>%
-#       dplyr::bind_rows(df_keeps) %>%
-#       dplyr::arrange(DELFN) %>%
-#       dplyr::mutate(KEEPFLG = ifelse(DELFN %in% keeps, 1, 0))
-#   }
-
-
   df_both <- df_deletions %>%
     dplyr::bind_rows(df_keeps) %>%
     dplyr::arrange(DELFN) %>%
