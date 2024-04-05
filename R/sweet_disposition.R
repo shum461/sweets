@@ -20,6 +20,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   # Not providing grouping variables will pool the disposition
   if (missing(group_vars)) {
     data <-  data %>%
+      dplyr::ungroup() %>%
       dplyr::mutate(pooled_group = "1")
 
     group_vars <- "pooled_group"
@@ -50,14 +51,17 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
   # set NAs to 0 if they exist
   data <- data %>%
-    dplyr::mutate(DELFN=if_else(is.na(DELFN),0,DELFN))
+    dplyr::ungroup() %>%
+    dplyr::mutate(DELFN=dplyr::if_else(is.na(DELFN),0,DELFN))
 
   # Data with no DELFN filtered out
   nothing_removed <- data %>%
-    cnt(Flag=0,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}})
+    dmcognigen::cnt(Flag=0,dplyr::across({{group_vars}}),
+                    n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE)
 
   # Name of the n distinct var, usually n_ID or n_USUBJID
-  n_name <- cnt(data, dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}}) %>%
+  n_name <-  dmcognigen::cnt(data, dplyr::across({{group_vars}}),
+                             n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE) %>%
     dplyr::select(starts_with("n_"),-n_cumulative) %>%
     names()
 
@@ -95,7 +99,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
       dplyr::distinct(DELFN, DELFNC) %>%
       dplyr::mutate(DELFNC = dplyr::case_when(DELFN == 0 ~ init_desc,
                                               TRUE ~ DELFNC)) %>%
-      rename('Reason for Deletion'= DELFNC)
+      dplyr::rename('Reason for Deletion'= DELFNC)
 
     unique_DELFNC_check <- data %>%
       dplyr::group_by(DELFN) %>%
@@ -104,7 +108,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   }
   else {
     reasons <- data %>%
-      dplyr::distinct(DELFN)
+    dplyr::distinct(DELFN)
     cli::cli_alert_info("Deletion Reason (DELFNC) was not provided")
 
     unique_DELFNC_check=NULL
@@ -122,23 +126,24 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
   # Counts of subjects
   affected_Subjects <- data %>%
-    cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}}) %>%
+    dmcognigen::cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}},
+                    prop = FALSE, pct = FALSE) %>%
     dplyr::select({{group_vars}},DELFN,SubjAffected=n_name)%>%
     dplyr::mutate(SubjAffected=ifelse(DELFN==0,0,SubjAffected))
 
   # Unique aff subjects
   unique_aff_subjects <-  data %>%
     dplyr::filter(DELFN>0) %>%
-    cnt(n_distinct_vars = {{subjid}})%>%
+    dmcognigen::cnt(n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE)%>%
     dplyr::pull(1)
 
   # DELFNs with USUBJID in list col
   nested_subjects <-
     data %>%
     dplyr::distinct(DELFN,{{subjid}}) %>%
-    group_by(DELFN) %>%
-    nest() %>%
-    rename(subjects_in_flag=data)
+    dplyr::group_by(DELFN) %>%
+    tidyr::nest() %>%
+    dplyr::rename(subjects_in_flag=data)
 
   #list(affected_Subjects,grp_vars,n_name )
 
@@ -150,23 +155,40 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   df_deletions <- purrr::map_dfr(deletion_flags,~
                                    data %>%
                                    dplyr::filter(DELFN==0| DELFN>.x | DELFN %in% keeps) %>%
-                                   cnt(DELFN=.x,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}})) %>%
+                                   dmcognigen::cnt(DELFN=.x,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}}),
+                                 prop = FALSE, pct = FALSE) %>%
     dplyr::group_by(dplyr::across({{group_vars}}))
   # n_name is usually n_USUBJID or n_ID from cnt()
   # n is the number of rows from cnt()
 
   # Just count and keeps
   df_keeps <- purrr::map_dfr(keeps,~
-                               data %>%
-                               dplyr::filter(DELFN==0|DELFN>.x) %>%
-                               cnt(DELFN=.x,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}})) %>%
+    data %>%
+    dplyr::filter(DELFN==0|DELFN>.x) %>%
+    dmcognigen::cnt(DELFN=.x,dplyr::across({{group_vars}}),
+        n_distinct_vars = {{subjid}}),prop = FALSE, pct = FALSE) %>%
     dplyr::group_by(dplyr::across({{group_vars}}))
 
 
+
+#
+#   if(keeps==-Inf) {
+#     df_both <- df_deletions %>%
+#       dplyr::arrange(DELFN) %>%
+#       dplyr::mutate(KEEPFLG = 0)
+#
+#   } else{
+#     df_both <- df_deletions %>%
+#       dplyr::bind_rows(df_keeps) %>%
+#       dplyr::arrange(DELFN) %>%
+#       dplyr::mutate(KEEPFLG = ifelse(DELFN %in% keeps, 1, 0))
+#   }
+
+
   df_both <- df_deletions %>%
-    bind_rows(df_keeps) %>%
-    arrange(DELFN) %>%
-    mutate(KEEPFLG=ifelse(DELFN %in% keeps,1,0))
+    dplyr::bind_rows(df_keeps) %>%
+    dplyr::arrange(DELFN) %>%
+    dplyr::mutate(KEEPFLG=ifelse(DELFN %in% keeps,1,0))
 
   # Last real DELFN. Values to use if count and keep DELFN is encountered
   find_flag <- function(df,current_flag){
@@ -179,9 +201,9 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
 
   df2 <- df_both %>%
-    mutate(across(c(!!!n_name,n,n_cumulative),~ifelse(KEEPFLG==0,.x,NA_real_))) %>%
-    fill(!!!n_name,n,n_cumulative,.direction="down") %>%
-    mutate(Remaining_subj=eval(sym(n_name)),
+    dplyr::mutate(across(c(!!!n_name,n,n_cumulative),~ifelse(KEEPFLG==0,.x,NA_real_))) %>%
+    tidyr::fill(!!!n_name,n,n_cumulative,.direction="down") %>%
+    dplyr::mutate(Remaining_subj=eval(dplyr::sym(n_name)),
            SubjExcluded=lag(Remaining_subj,n=1)-Remaining_subj,
            SamplesExcluded=lag(n,n=1)-n)
 
@@ -197,18 +219,19 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
 
   df4 <- df3 %>%
+    dplyr::filter(!DELFN %in% -Inf)  %>%
     dplyr::arrange(DELFN,dplyr::across({{group_vars}}))%>%
     dplyr::mutate(
       SubjAffected = tidyr::replace_na(SubjAffected, 0L),
       # check for deletions where the remainder of some group is completely removed.
       SamplesExcluded = dplyr::case_when(
         !is.na(SamplesExcluded) ~ SamplesExcluded,
-        row_number() == 1 ~ 0,
+        dplyr::row_number() == 1 ~ 0,
         TRUE ~ dplyr::lag(Remaining_Samp)
       ),
       SubjExcluded = dplyr::case_when(
         !is.na(SubjExcluded) ~ SubjExcluded,
-        row_number() == 1 ~ 0,
+        dplyr::row_number() == 1 ~ 0,
         TRUE ~ dplyr::lag(Remaining_subj)
       ),
       Remaining_Samp = tidyr::replace_na(Remaining_Samp, 0),
@@ -217,8 +240,8 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
 
   df5 <- df4 %>%
-    left_join(reasons,by="DELFN") %>%
-    arrange(DELFN, dplyr::across({{group_vars}})) %>%
+    dplyr::left_join(reasons,by="DELFN") %>%
+    dplyr::arrange(DELFN, dplyr::across({{group_vars}})) %>%
     dplyr::select('Flag #'= DELFN,
                   dplyr::starts_with('Reason'),
                   dplyr::any_of(grp_vars),
