@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 You can install the development version of sweets from [GitHub](https://github.com/) with:
 
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("shum461/sweets")
 ```
@@ -33,10 +33,46 @@ devtools::install_github("shum461/sweets")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r }
+library(dplyr)
+library(dmcognigen)
 library(sweets)
-## basic example code
+
+packageVersion('sweets')
+# modified iris data
+fd <- get(data("fake_data"))
+
 ```
+
+
+```{r }
+
+fd %>%
+cnt(DELFN,STUDY,n_distinct_vars = USUBJID, prop = FALSE, pct = FALSE)
+```
+
+
+**Error: callr subprocess failed: 'sweet_disposition' is not an exported object from 'namespace:sweets'**
+```{r}
+
+# fd %>%
+#   sweets::sweet_disposition(subjid = USUBJID,
+#                       group_vars = STUDY)
+```
+
+# Count and Keeps
+
+add deletion flags to 'r cnt_n_keeps'  
+if you wish to count but not remove samples and subjects
+
+```{r }
+
+# fd %>%
+#     sweet_disposition(subjid = USUBJID,
+#                       group_vars = STUDY, cnt_n_keeps = c(6,7)) 
+```
+
+
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
