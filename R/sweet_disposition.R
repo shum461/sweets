@@ -1,5 +1,5 @@
 #' Make a disposition table
-#'
+#' @description Count the number of subjects and samples impacted by a "deletion flag" DELFN
 #' @param data a data frame that must include deletion flags called DELFN.
 #' @param subjid Subject Identifier such as USUBJID, or ID.
 #' @param group_vars grouping variables useful in disposition tables such as STUDY or STUDYID. If none are provided a default group="1" will be set
@@ -11,7 +11,7 @@
 #' cnt_n_keeps = c(16,24)
 #' )
 
-
+#' @export
 
 
 sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,

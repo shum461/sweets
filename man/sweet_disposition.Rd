@@ -25,7 +25,7 @@ sweet_disposition(
 A disposition table.
 }
 \description{
-Make a disposition table
+Count the number of subjects and samples impacted by a "deletion flag" DELFN
 }
 \examples{
 sweet_disposition(subjid = USUBJID,
