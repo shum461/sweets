@@ -1,3 +1,7 @@
+
 test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+  withr::local_options(width= 20)
+  expect_snapshot(
+    waldo::compare(fd_old,fd_new)
+  )
 })

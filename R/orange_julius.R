@@ -122,15 +122,16 @@
 # send.to.term : Do you want to sent the compiled commands to create the requested directories to your terminal?
 # activate.term: Do you want to activate the terminal to which the compiled commands were sent?
 # sleep        : How many seconds to wait before activating the terminal window. Will be converted to a positive integer.
-orange_julius <- function(paths){
+orange_julius <- function(paths,
+                          ask = FALSE,
+                          multi = FALSE,
+                          descriptor = "consulting",
+                          stddir = FALSE,
+                          send.to.term = TRUE,
+                          activate.term = TRUE){
 
 
-                      # ask = FALSE,
-                      # multi = FALSE,
-                      # descriptor = "consulting",
-                      # stddir = FALSE,
-                      # send.to.term = TRUE,
-                      # activate.term = TRUE,
+
                       # sleep = 5) {
 
 
@@ -143,72 +144,76 @@ orange_julius <- function(paths){
     cli::cli_abort("No file paths provided to {.arg paths}")
   }
 
-cli::cli_alert_info("Prepping the Requested {.val {length(paths)}} File Paths ")
-cli::cli_progress_bar("File Paths", total = 100, clear = FALSE)
+cli::cli_h2(col_green("Original Paths"))
+cli::cli_alert_success("Prepping the {.val {length(paths)}} Provided File Paths ")
 
-
-
-
-  # message("Prepping the Requested File Paths\n",
-  #         paste0(rep("=", 63), collapse = ""), "\n")
-
+# No valid paths remaining checker function
   nopaths <- function() {
     if (length(paths) == 0) {
       cli::cli_abort("There are no valid file paths remaining")
     }
   }
 
-   # convert sleep to a postive integer
-
-  #sleep <- as.integer(abs(sleep))
-
-  # Prep: All Paths ---------------------------------------------------------
-
-
-
-
 
 # Clean paths -------------------------------------------------------------
 
 
 # remove all white space as file paths should not have any
-paths <- utilscognigen:::clean_path(gsub(" ", "", paths))
+mod_paths <- utilscognigen:::clean_path(gsub(" ", "", paths))
 # convert all paths to unix, add leading "/"
-paths <- utilscognigen:::clean_path(paste0("/", utilscognigen::path_to_unix(paths, normalize = FALSE)))
+mod_paths <- utilscognigen:::clean_path(paste0("/", utilscognigen::path_to_unix(mod_paths, normalize = FALSE)))
+
+
 # normalize paths and only keep unique values
-paths <- unique(normalizePath(paths, mustWork = FALSE))
+unique_paths <- unique(normalizePath(mod_paths, mustWork = FALSE))
+
+# Dropping duplicated paths without message
+if(length(setdiff(paths,unique_paths))>0){
+
+  cli::cli_h1("Duplicated Paths")
+  cli::cli_alert_warning("Dropping {.val {length(setdiff(paths,unique_paths))}} duplicated paths
+                       {.file {setdiff(paths,unique_paths)}}")
+  cli::cli_alert_info("{.val {length(unique_paths)}} file paths remaining")
+}
 
 
-# Drop missing doc or misc prefix -----------------------------------------
+  paths <- unique_paths
 
+  # Drop missing doc or misc prefix -----------------------------------------
 # garbage paths are paths that don't start with misc or doc
 garbage_paths <- paths %>%
   str_subset(pattern = "^/doc|^/misc",negate = TRUE)
 
 # count and print garbage paths
-if(length(garbage_paths)>=0){
+if(length(garbage_paths)>0){
 
+  cli::cli_h1("Missing /doc or /misc")
   cli::cli_alert_warning("Paths must start with /doc or /misc.
                          Dropping {.val {length(garbage_paths)}} invalid paths
                        {.file {garbage_paths}}")
 
+  paths <- paths %>%
+  str_subset(pattern = "^/doc|^/misc")
+
+}
+
 # subset paths to keep valid paths
-paths <- paths %>%
-   str_subset(pattern = "^/doc|^/misc")
+
 
 # only show remaining path count if some were dropped
-if(length(garbage_paths)>=0){
+if(length(garbage_paths)>0){
 cli::cli_alert_info("{.val {length(paths)}} file paths remaining")
 }
 
 
 nopaths()
 
-cli::cli_progress_update()
-} # {------------- END FUNCTION ----------------------}
 
 
-  # if (is.null(paths) | ask) {
+
+# ------ Steve: can remove, made paths a required arg --------------------
+
+# if (is.null(paths) | ask) {
   #   readlinepaths <- readline("Enter the full file paths, comma-separated:")
   #   # readlinepaths <- rstudioapi::showPrompt(title = "Additional Paths",
   #   #                                         message = "Enter the full file paths, comma-separated:",
@@ -220,11 +225,7 @@ cli::cli_progress_update()
   #   }
   # }
 
-
-
-  nopaths()
-
-  cli::cli_progress_update()
+  # ------ Steve: can remove, only /doc and /misc are valid --------------------
 
 
   # must start with leading /
@@ -235,44 +236,94 @@ cli::cli_progress_update()
   #        call. = FALSE)
   # }
   # must be /doc or /misc
-  doc_miscs    <- sapply(fs::path_split(paths), '[', 2)
-  if (any(!(doc_miscs %in% c("doc", "misc")))) {
-    warning("The following paths are invalid and will be removed for the remainder of the script.\n",
-            "  The paths must start with /doc or /misc.\n  ",
-            paste0(paths[which(!(doc_miscs %in% c("doc", "misc")))], collapse = "\n  "),"\n",
-            call. = FALSE, immediate. = TRUE)
 
-    paths <- paths[which(doc_miscs %in% c("doc", "misc"))]
-    nopaths()
-  }
+  # ------ Steve: can remove, we already checked for /doc and /misc--------------------
+
+  # doc_miscs    <- sapply(fs::path_split(paths), '[', 2)
+  # if (any(!(doc_miscs %in% c("doc", "misc")))) {
+  #   warning("The following paths are invalid and will be removed for the remainder of the script.\n",
+  #           "  The paths must start with /doc or /misc.\n  ",
+  #           paste0(paths[which(!(doc_miscs %in% c("doc", "misc")))], collapse = "\n  "),"\n",
+  #           call. = FALSE, immediate. = TRUE)
+  #
+  #   paths <- paths[which(doc_miscs %in% c("doc", "misc"))]
+  #   nopaths()
+  # }
+
 
   # update paths, change all "misc" to "doc", get new unique paths
   paths <- unique(stringr::str_replace(normalizePath(paths, mustWork = FALSE), "/misc/", "/doc/"))
 
   # remove paths that are subsets of other paths, no need to repeat scripts when they will be made for the longest match
   pathcounts <- unlist(lapply(paths, function(x) {sum(grepl(x, paths))}) %>% invisible())
-  if (any(pathcounts > 1)) {
-    warning("The following paths are substrings of other requested paths and will be removed for the remainder of the script.\n  ",
-            paste0(paths[which(pathcounts > 1)], collapse = "\n  "),"\n")
+
+  # --- Steve: if we wanted to go 'table' route--------
+  # data.frame(paths=paths) %>%
+  # dplyr::mutate(m=map_dbl(paths,~sum(grepl(.x,paths))))
+
+  # count and remove redundant paths
+  if(any(pathcounts > 1)){
+
+    cli::cli_h1("Redundant Paths")
+    cli::cli_alert_warning("The following paths are substrings of other requested paths and will be removed.
+                            Dropping {.val {length(which(!pathcounts==1))}} duplicated paths
+                            {.file {paths[which(!pathcounts == 1)]}}")
+
     paths <- paths[which(pathcounts == 1)]
   }
 
-  # all project numbers must be 6 or 8 digits long
-  proj_lengths <- nchar(sapply(fs::path_split(paths), '[', 5))
-  if (any(!(is.na(proj_lengths) | proj_lengths %in% c(6, 8)))) {
-    warning("The project numbers in the following paths are not 6 or 8 digits and will be removed for the remainder of the script.\n  ",
-            paste0(paths[which(!(is.na(proj_lengths) | proj_lengths %in% c(6, 8)))],
-                   collapse = "\n  "),"\n")
-    paths <- paths[which((is.na(proj_lengths) | proj_lengths %in% c(6, 8)))]
+  # only show remaining path count if some were dropped
+  if(any(pathcounts > 1)){
+    cli::cli_alert_info("{.val {length(paths)}} file paths remaining")
   }
+
+  # check again if valid paths exist
+  nopaths()
+
+
+  # all project numbers must be 6 or 8 digits long
+
+  # ----Steve: switched to look for numerics after strings instead of 5th item---
+  # we don't want 123A55 to count as 6
+
+  # proj_lengths <- nchar(sapply(fs::path_split(paths), '[', 5))
+
+   proj_lengths <- nchar(str_extract_all(paths,"\\b\\d+\\b",simplify = TRUE))
+
+
+   # warning and drop paths for invalid project number lengths
+   if(any(!proj_lengths %in% c(6, 8))){
+
+     cli::cli_h1("Invalid Proj Number")
+     cli::cli_alert_warning("Project numbers must be 6 or 8 digits.
+                            Dropping {.val {length(which(!proj_lengths %in% c(6,8)))}} invalid paths
+                            {.file {paths[which(!proj_lengths %in% c(6,8))]}}")
+
+     paths <- paths[which(proj_lengths %in% c(6,8))]
+   }
+
+   # only show remaining path count if some were dropped
+   if(any(!proj_lengths %in% c(6, 8))){
+     cli::cli_alert_info("{.val {length(paths)}} file paths remaining")
+   }
+
+   # check again if valid paths exist
+   nopaths()
+
+
 
   path_lists <- fs::path_split(paths)
   path_lengths <- lengths(fs::path_split(paths))
 
+
+
   # subset the paths to not be longer than the stage level
   if (any(path_lengths > 6)) {
-    message("The following requested file paths will only be created through the stage level.\n  ",
-            paste0(paths[which(path_lengths > 6)], collapse = "\n  "),"\n")
+
+    cli::cli_h1("Adjust Paths")
+    cli::cli_alert_warning("File paths will only be created through the stage level.
+                            Adjusting {.val {length(which(path_lengths > 6))}} paths
+                            {.file {paths[which(path_lengths > 6)]}}")
 
     paths <- unique(lapply(1:length(paths),
                            FUN = function(.pln) {
@@ -284,16 +335,31 @@ cli::cli_progress_update()
     path_lengths <- lengths(fs::path_split(paths))
   }
 
+
+
+
   # see if the requested sponsor directories already exist
   sponsordirs <- lapply(path_lists, FUN = function(x) {fs::path_join(x[1:3])}) %>% invisible()
+
   sponsordirs.exist <- dir.exists(unlist(sponsordirs))
+
+  # sponsor dir do not exist
   if (any(!sponsordirs.exist)) {
-    warning("The following sponsor directories do not exist. Please contact the helpdesk to have them created.\n  ",
-            paste0(unique(sponsordirs[which(!sponsordirs.exist)]), collapse = "\n  "),
-            "\n\n",
-            "  The following requested paths will be removed for the remainder of the script:\n    ",
-            paste0(paths[which(!sponsordirs.exist)], collapse = "\n    "),"\n",
-            call. = FALSE, immediate. = TRUE)
+
+    n_false_directories <- length(unique(which(!sponsordirs.exist)))
+
+    cli::cli_h1("Invalid Sponsor")
+    cli::cli_alert_warning("{n_false_directories} sponsor director{?y/ies} do not exist.
+                            Please contact the helpdesk to have these created.
+                            {.file {unique(unlist(sponsordirs)[which(!sponsordirs.exist)])}}")
+  #
+  # if (any(!sponsordirs.exist)) {
+  #   warning("The following sponsor directories do not exist. Please contact the helpdesk to have them created.\n  ",
+  #           paste0(unique(sponsordirs[which(!sponsordirs.exist)]), collapse = "\n  "),
+  #           "\n\n",
+  #           "  The following requested paths will be removed for the remainder of the script:\n    ",
+  #           paste0(paths[which(!sponsordirs.exist)], collapse = "\n    "),"\n",
+  #           call. = FALSE, immediate. = TRUE)
 
     paths <- paths[which(sponsordirs.exist)]
     nopaths()
@@ -303,17 +369,24 @@ cli::cli_progress_update()
     path_lengths <- lengths(fs::path_split(paths))
   }
 
+
+
   # the requested paths must be to at least the drug level
   path_lengths <- lengths(fs::path_split(paths))
+
+  # path not at drug level
   if (any(path_lengths < 4)) {
-    warning("The following paths are invalid and will be removed for the remainder of the script.\n",
-            "  The file paths need to include /misc/sponsor/drug, at minimum.\n  ",
-            paste0(paths[which(path_lengths < 4)], collapse = "\n  "),"\n",
-            call. = FALSE, immediate. = TRUE)
+
+     cli::cli_h1("Invalid Level")
+     cli::cli_alert_warning("File paths need to include /misc/sponsor/drug, at minimum
+                           Dropping {.val {length(which(path_lengths < 6))}} invalid paths
+                           {.file {paths[which(path_lengths < 4)]}}")
 
     paths <- paths[which(path_lengths >= 4)]
     nopaths()
   }
+
+
 
   drugdirs    <- lapply(path_lists, FUN = function(x) {fs::path_join(x[1:4])}) %>% invisible()
   projdirs    <- lapply(path_lists, FUN = function(x) {fs::path_join(x[1:5])}) %>% invisible()
@@ -342,12 +415,26 @@ cli::cli_progress_update()
   # initialize the object which will collect the UNIX commands to make the desired directory structures
   mkcmds <- vector(mode = "list", length = length(paths))
 
-  message("Looping Through the Valid File Paths\n",
-          paste0(rep("=", 63), collapse = ""), "\n")
 
+
+  # message("Looping Through the Valid File Paths\n",
+  #         paste0(rep("=", 63), collapse = ""), "\n")
+
+#   cli_progress_along(1:100, "Downloading")
+# progress_fun <- function(){
+#
+#   msg <- ""
+#  no_paths <- length(paths)
+#
+#  cli::cli_progress_step("Assessing Valid File Path {msg}", spinner = TRUE)
+
+  cli::cli_h2(cli::col_green("Initialize mk objects"))
+  cli::cli_alert_info("{.val {length(paths)}} file paths remaining")
 
   # Loop Through the Remaining Paths ----
   for (.pathn in 1:length(paths)) {
+
+    cli::cli_progress_step(paths[.pathn])
     # initialize mk* objects
     path <- unlist(paths[.pathn])
     mkdrug <- NULL
@@ -372,13 +459,27 @@ cli::cli_progress_update()
     proj       <- unlist(projects[.pathn])
     proj_nchar <- nchar(proj)
     stage      <- unlist(stages[.pathn])
+#
+#     msg <- glue::glue("{.pathn}/{no_paths}")
+#     cli_progress_update()
 
-    message("Assessing Valid File Path: ", path, "\n",
-            paste0(rep("=", 63), collapse = ""), "\n")
+  }
+
+
+
+
+
+
+    # message("Assessing Valid File Path: ", path, "\n",
+    #         paste0(rep("=", 63), collapse = ""), "\n")
 
     if (!dir.exists(drugdir)) {
-      mkdrug <- paste0(paste("mkdrug", drug, sponsordir, sep = " "), ";")
+
+       mkdrug <- paste0(paste("mkdrug", drug, sponsordir, sep = " "), ";")
+      # cli::cli_alert_success("created {.file {mkdrug}}")
     }
+
+
 
     # checks performed if the project directory is in the requested file path
     if (path_length > 4) {
@@ -431,6 +532,14 @@ cli::cli_progress_update()
                }
         )
       }
+
+
+  #===========================================================================
+} #-------------------------- End Function -----------------------------------
+  #===========================================================================
+
+
+
 
       # construct possible 'consulting' directories
       consultdir <- file.path(sponsordir, "consult_gen")
