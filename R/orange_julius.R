@@ -768,6 +768,10 @@ nopaths()
                                        'the appropriate ', consultdir, ' project folder.\\n\\n" | cat - ',fs::path_join(c(projdir, "README.txt")),
                                        ' > ~/temp_update_README.txt; cat ~/temp_update_README.txt > ',fs::path_join(c(projdir, "README.txt")),
                                        '; /usr/bin/rm -f ~/temp_update_README.txt;'))
+
+      }
+      }
+
         # update_readme <- paste0(paste0("awk 'BEGIN{print ",
         #                                            '"Per planned non-compliance with multi-drug directory structure (CAPA # 2023-03),\\n',
         #                                            'the project folder has been updated with traditional {map, projman, proposal, rpt}\\n',
@@ -783,92 +787,127 @@ nopaths()
         #                                "project number. For combined, multiple drug reports, the work should be done in\\n",
         #                                "the appropriate ", consultdir, " project folder.\\n\\n' ",
         #                                fs::path_join(c(projdir, "README.txt"))), ";")
-      }
 
-      if (path_length > 5 & !dir.exists(stagedir)) {
-        mkstage <- paste0(paste(ifelse(proj_nchar == 8,
-                                       "mkstage8",
-                                       "mkstage"),
-                                stage, projdir, sep = " "), ";")
-      }
-
-    }
-
-    mkcmd <- stringr::str_squish(paste(mkconsultgen,
-                                       mkconsultproj,
-                                       mkdrug,
-                                       mkproj,
-                                       mkstddir,
-                                       update_readme,
-                                       mkstage,
-                                       sep = " ")
-    )
-
-    do.not.activate.terminal <<- !isdatlibuser & any(!is.null(c(mkconsultgen, mkconsultproj, mkdrug, mkproj, mkstddir)))
-
-    combined_message_to_display[[.pathn]] <-
-      paste0(
-        "\n\nRequested File Path: ", path, "\n",
-        if (length(mkcmd) == 0) {
-          paste0("\n  Warning message:\n    All of the requested directories in already exist.")
-        } else {
-          paste0(
-            if (do.not.activate.terminal) {
-              paste0("\n  Warning message:",
-                     "\n    Only SDR can run the mkdrug and mkproj scripts.",
-                     "\n      Please submit the function call mkscripts(paths = '", path, ifelse(.multi, paste0("', multi = ", .multi, ", descriptor = '", basename(consultdir), "', stddir = ", stddir), "'"), ")",
-                     "\n      or the following output to SDR for processing.\n")
-            },
-            if (.multi & path_length > 4) {
-              paste0("\n  Existing project within a multi-drug directory that you would like to associate this project directory with:\n    ",
-                     consultprojdir,"\n")
-            },
-            paste0("\n  Consolidated mk* scripts:\n    ", mkcmd),
-            if (send.to.term & !do.not.activate.terminal) {
-              paste0("\n\n  The consolidated scripts have been sent to the active terminal window.")
-            } else {
-              paste0("\n\n  The consolidated scripts have NOT been sent to the active terminal window.")
-            }
-          )
-        })
-
-    if (length(mkcmd) > 0 & send.to.term & !do.not.activate.terminal) {
-      mkcmds[[.pathn]] <- mkcmd %>% invisible()
-    }
-
-  }
-
-  # remove NULL values from the combined_message_to_display object
-  combined_message_to_display <- Filter(Negate(is.null), combined_message_to_display)
-
-  # display the combined messages
-  if (length(combined_message_to_display) > 0) {
-    message("\n\nDisplaying the Combined Messages for All of the Requested Paths\n",
-            paste0(rep("=", 63), collapse = ""),
-            combined_message_to_display)
-  }
-
-  # remove NULL values from the mkcmds object
-  mkcmds <- Filter(Negate(is.null), mkcmds)
-
-  if (send.to.term & length(mkcmds) > 0) {
-    terminal.id <- rstudioapi::terminalList()
-    if (length(terminal.id) == 0) {
-      rstudioapi::terminalCreate(show = FALSE)
-    }
-    rstudioapi::terminalSend(id = rstudioapi::terminalList(), text = paste0(mkcmds, collapse = " "))
-    message("\nAll of the consolidated scripts have been sent to the active terminal window.")
-  }
-
-  if (send.to.term & activate.term & length(mkcmds) > 0) {
-    message("\nThe active terminal window will be activated in ", sleep, " seconds.")
-    for (sec_ in sleep:min(sleep, 1)) {
-      cat(sec_, "\r")
-      flush.console()
-      Sys.sleep(1)
-    }
-    # Sys.sleep(sleep)
-    rstudioapi::terminalActivate(rstudioapi::terminalList())
-  }
-
-}
+#       }
+#
+#       if (path_length > 5 & !dir.exists(stagedir)) {
+#         mkstage <- paste0(paste(
+#           ifelse(proj_nchar == 8,
+#                  "mkstage8",
+#                  "mkstage"),
+#           stage,
+#           projdir,
+#           sep = " "
+#         ), ";")
+#       }
+#
+# }
+#
+# mkcmd <- stringr::str_squish(
+#   paste(
+#     mkconsultgen,
+#     mkconsultproj,
+#     mkdrug,
+#     mkproj,
+#     mkstddir,
+#     update_readme,
+#     mkstage,
+#     sep = " "
+#   )
+# )
+#
+# do.not.activate.terminal <<-
+#   !isdatlibuser &
+#   any(!is.null(c(
+#     mkconsultgen, mkconsultproj, mkdrug, mkproj, mkstddir
+#   )))
+#
+# combined_message_to_display[[.pathn]] <-
+#   paste0("\n\nRequested File Path: ", path, "\n",
+#          if (length(mkcmd) == 0) {
+#            paste0("\n  Warning message:\n    All of the requested directories in already exist.")
+#          } else {
+#            paste0(if (do.not.activate.terminal) {
+#              paste0(
+#                "\n  Warning message:",
+#                "\n    Only SDR can run the mkdrug and mkproj scripts.",
+#                "\n      Please submit the function call mkscripts(paths = '",
+#                path,
+#                ifelse(
+#                  .multi,
+#                  paste0(
+#                    "', multi = ",
+#                    .multi,
+#                    ", descriptor = '",
+#                    basename(consultdir),
+#                    "', stddir = ",
+#                    stddir
+#                  ),
+#                  "'"
+#                ),
+#                ")",
+#                "\n      or the following output to SDR for processing.\n"
+#              )
+#            },
+#            if (.multi & path_length > 4) {
+#              paste0(
+#                "\n  Existing project within a multi-drug directory that you would like to associate this project directory with:\n    ",
+#                consultprojdir,
+#                "\n"
+#              )
+#            },
+#            paste0("\n  Consolidated mk* scripts:\n    ", mkcmd),
+#            if (send.to.term & !do.not.activate.terminal) {
+#              paste0("\n\n  The consolidated scripts have been sent to the active terminal window.")
+#            } else {
+#              paste0("\n\n  The consolidated scripts have NOT been sent to the active terminal window.")
+#            })
+#          })
+#
+# if (length(mkcmd) > 0 &
+#     send.to.term & !do.not.activate.terminal) {
+#   mkcmds[[.pathn]] <- mkcmd %>% invisible()
+# }
+#
+# }
+#
+# # remove NULL values from the combined_message_to_display object
+# combined_message_to_display <-
+#   Filter(Negate(is.null), combined_message_to_display)
+#
+# # display the combined messages
+# if (length(combined_message_to_display) > 0) {
+#   message(
+#     "\n\nDisplaying the Combined Messages for All of the Requested Paths\n",
+#     paste0(rep("=", 63), collapse = ""),
+#     combined_message_to_display
+#   )
+# }
+#
+# # remove NULL values from the mkcmds object
+# mkcmds <- Filter(Negate(is.null), mkcmds)
+#
+# if (send.to.term & length(mkcmds) > 0) {
+#   terminal.id <- rstudioapi::terminalList()
+#   if (length(terminal.id) == 0) {
+#     rstudioapi::terminalCreate(show = FALSE)
+#   }
+#   rstudioapi::terminalSend(id = rstudioapi::terminalList(),
+#                            text = paste0(mkcmds, collapse = " "))
+#   message("\nAll of the consolidated scripts have been sent to the active terminal window.")
+# }
+#
+# if (send.to.term & activate.term & length(mkcmds) > 0) {
+#   message("\nThe active terminal window will be activated in ",
+#           sleep,
+#           " seconds.")
+#   for (sec_ in sleep:min(sleep, 1)) {
+#     cat(sec_, "\r")
+#     flush.console()
+#     Sys.sleep(1)
+#   }
+#   # Sys.sleep(sleep)
+#   rstudioapi::terminalActivate(rstudioapi::terminalList())
+# }
+#
+# }

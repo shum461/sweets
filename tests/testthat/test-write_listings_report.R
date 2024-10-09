@@ -5,3 +5,4 @@ test_that("multiplication works", {
     waldo::compare(fd_old,fd_new)
   )
 })
+

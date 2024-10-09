@@ -128,7 +128,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   affected_Subjects <- data %>%
     dmcognigen::cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}},
                     prop = FALSE, pct = FALSE) %>%
-    dplyr::select({{group_vars}},DELFN,SubjAffected=n_name)%>%
+    dplyr::select({{group_vars}},DELFN,SubjAffected=n_name) %>%
     dplyr::mutate(SubjAffected=ifelse(DELFN==0,0,SubjAffected))
 
   # Unique aff subjects
