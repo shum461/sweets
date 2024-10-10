@@ -18,6 +18,7 @@
 sweet_save <- function(asmbdat_path=getwd(),archive_path=NULL,...){
 
   path <- NULL
+  File_extentions <- NULL
 
   # check if asmbdat_path is valid
   if (!file.exists(asmbdat_path)) {
