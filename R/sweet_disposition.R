@@ -4,18 +4,33 @@
 #' @param subjid Subject Identifier such as USUBJID, or ID.
 #' @param group_vars grouping variables useful in disposition tables such as STUDY or STUDYID. If none are provided a default group="1" will be set
 #' @param cnt_n_keeps Deletion Flags DELFN that should be included in disposition table but do NOT remove subjects or rows.
+#' @param init_desc Initial description of records received default is "Concentration Records Received"
 #' @return A disposition table.
 #' @examples
+#' \dontrun{
 #' sweet_disposition(subjid = USUBJID,
 #' group_vars = c(STUDY),
 #' cnt_n_keeps = c(16,24)
-#' )
-
+#' )}
+#'
 #' @export
 
 
 sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
                                 init_desc = "Concentration Records Received"){
+
+
+  DELFN <- NULL
+  DELFNC <- NULL
+  n_name <- NULL
+  n_cumulative <- NULL
+  SubjAffected <- NULL
+  SubjExcluded <- NULL
+  SamplesExcluded <- NULL
+  Remaining_Samp <- NULL
+  Remaining_subj <- NULL
+  n <-  NULL
+
 
   # Not providing grouping variables will pool the disposition
   if (missing(group_vars)) {
@@ -62,7 +77,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   # Name of the n distinct var, usually n_ID or n_USUBJID
   n_name <-  dmcognigen::cnt(data, dplyr::across({{group_vars}}),
                              n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE) %>%
-    dplyr::select(starts_with("n_"),-n_cumulative) %>%
+    dplyr::select(dplyr::starts_with("n_"),-n_cumulative) %>%
     names()
 
   # Names of group vars
@@ -103,7 +118,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
     unique_DELFNC_check <- data %>%
       dplyr::group_by(DELFN) %>%
-      dplyr::summarise(N_DELFNC=n_distinct(DELFNC),
+      dplyr::summarise(N_DELFNC=dplyr::n_distinct(DELFNC),
                        DELFNC=DELFNC)
   }
   else {
@@ -186,15 +201,15 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
 
   df2 <- df_both %>%
-    dplyr::mutate(across(c(!!!n_name,n,n_cumulative),~ifelse(KEEPFLG==0,.x,NA_real_))) %>%
+    dplyr::mutate(dplyr::across(c(!!!n_name,n,n_cumulative),~ifelse(KEEPFLG==0,.x,NA_real_))) %>%
     tidyr::fill(!!!n_name,n,n_cumulative,.direction="down") %>%
     dplyr::mutate(Remaining_subj=eval(dplyr::sym(n_name)),
-           SubjExcluded=lag(Remaining_subj,n=1)-Remaining_subj,
-           SamplesExcluded=lag(n,n=1)-n)
+           SubjExcluded=dplyr::lag(Remaining_subj,n=1)-Remaining_subj,
+           SamplesExcluded=dplyr::lag(n,n=1)-n)
 
   df3 <- df2 %>%
     dplyr::full_join(affected_Subjects,by=c(grp_vars,"DELFN"))%>%
-    dplyr::select(starts_with("DELF"),
+    dplyr::select(dplyr::starts_with("DELF"),
                   grp_vars,
                   SubjAffected,
                   SamplesExcluded,

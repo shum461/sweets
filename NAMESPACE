@@ -3,4 +3,5 @@
 export("%>%")
 export(cnt_chocula)
 export(sweet_disposition)
+export(sweet_save)
 importFrom(magrittr,"%>%")

@@ -4,8 +4,9 @@
 #' @param file_name Name of listings file
 #' @param ...  Extra arguments to be passed to reporter::options_fixed()
 #' @examples
+#' \dontrun{
 #' del_report <- build_report(file_name = "deletion-listings")
-#'
+#' }
 #'
 #'
 

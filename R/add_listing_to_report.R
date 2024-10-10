@@ -7,28 +7,28 @@
 #' @param deletion_report Name of initialized deletion report made with `build_report()`
 #' @param listing Data to be used in the listing. Subset to variables that best portray why the data were deleted.
 #' Selected variables should be source variables if possible
+#' @param ... additional arguments passed to reporter::create_table()
 #' @param title Title to describe each unique listing in the report. Usually closely resembles DELFNC
 #' @return A deletion report object that includes all added listings and their titles
 #' @examples
-#'
-#' A deletion report with DELFN 1 and 9 added
+#' \dontrun{
+#' # A deletion report with DELFN 1 and 9 added
 #'
 #'
 #' del_report <- del_report %>%
-#'-------DELFN 1 - Empty Place Holder Records-------
-#'add_listing_to_report(
+#'  add_listing_to_report(
 #'  listing = pd_delimp %>%
 #'    filter(DELFN == 1) %>%
 #'    select(STUDY, USUBJID, VISIT, DV),
 #'  title = "Empty Place Holder Records"
-#') %>%
-#'-------DELFN 9 - Missing Concentration Value------
+#' ) %>%
 #'  add_listing_to_report(
 #'    listing = pd_delimp %>%
 #'      filter(DELFN == 9) %>%
 #'      select(STUDY, USUBJID, VISIT, DV, SCF),
 #'    title = "Missing Concentration Value"
 #'  )
+#'}
 #'
 #'
 #'

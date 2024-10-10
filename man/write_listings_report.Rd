@@ -17,7 +17,9 @@ This function differs from \code{reporter::write_report()}
 by including the N= counts at the end of each listing
 }
 \examples{
+\dontrun{
 write_listings_report(del_report)
+}
 
 
 

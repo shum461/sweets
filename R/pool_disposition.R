@@ -4,13 +4,24 @@
 #' @param disp_table an object of class 'disposition_table'
 #' @return A pooled disposition table.
 #' @examples
+#' \dontrun{
 #' pool_disposition(disp_table = my_disposition_table)
+#' }
 
 
 
 
 
 pool_disposition <- function(disp_table){
+
+  `Remaining Subjects` <- NULL
+   Remaining_subj <- NULL
+  `Remaining Samples`  <- NULL
+  `Flag #`  <- NULL
+  `Reason for Deletion`  <- NULL
+  `Subjects Affected`  <- NULL
+   .  <- NULL
+   `n` <- NULL
 
   if (is.null(attr(disp_table, "disposition_table"))) {
     user_provided_arg <- deparse(substitute(disp_table))
@@ -25,32 +36,34 @@ pool_disposition <- function(disp_table){
   }
 
   # Names of group vars
-  grp_vars <- group_vars(disp_table)
+  grp_vars <- dplyr::group_vars(disp_table)
 
   pooled_disp <- disp_table %>%
-    ungroup() %>%
-    mutate(across(grp_vars, as.character)) %>%
-    group_by(`Flag #`, `Reason for Deletion`) %>%
-    summarise(
-      across(
-        .cols = where(is.numeric),
+    dplyr::ungroup() %>%
+    dplyr::mutate(dplyr::across(grp_vars, as.character)) %>%
+    dplyr::group_by(`Flag #`, `Reason for Deletion`) %>%
+    dplyr::summarise(
+      dplyr::across(
+        .cols = dplyr::where(is.numeric),
         .fns = sum
       ),
       .groups = "drop"
     ) %>%
-    bind_rows(summarise(., across(where(is.numeric), sum),
-                        across(where(is.character), ~ 'Grand Total'))) %>%
-    left_join(
-      disp_table %>% ungroup() %>% distinct(`Reason for Deletion`, `Flag #`),
+    dplyr::bind_rows(dplyr::summarise(., dplyr::across(dplyr::where(is.numeric), sum),
+                               dplyr::across(dplyr::where(is.character), ~ 'Grand Total'))) %>%
+    dplyr::left_join(
+      disp_table %>%
+        dplyr::ungroup() %>%
+        dplyr::distinct(`Reason for Deletion`, `Flag #`),
       by = c("Flag #", "Reason for Deletion")
     ) %>%
-    arrange(`Flag #`) %>%
-    select(-`Flag #`) %>%
-    mutate(across(
+    dplyr::arrange(`Flag #`) %>%
+    dplyr::select(-`Flag #`) %>%
+    dplyr::mutate(dplyr::across(
       c(`Remaining Samples`, `Remaining Subjects`),
       ~ ifelse(`Reason for Deletion` == "Grand Total", lag(.x), .x)
     )) %>%
-    mutate(
+    dplyr::mutate(
       `Subjects Affected` = ifelse(
         `Reason for Deletion` == "Grand Total",
         attr(disp_table, "unique_aff_subjects"),

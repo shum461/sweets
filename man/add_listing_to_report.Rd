@@ -13,6 +13,8 @@ add_listing_to_report(deletion_report, listing, title, ...)
 Selected variables should be source variables if possible}
 
 \item{title}{Title to describe each unique listing in the report. Usually closely resembles DELFNC}
+
+\item{...}{additional arguments passed to reporter::create_table()}
 }
 \value{
 A deletion report object that includes all added listings and their titles
@@ -22,25 +24,24 @@ A deletion report object that includes all added listings and their titles
 is used to build listings one deletion flag at a time
 }
 \examples{
-
-A deletion report with DELFN 1 and 9 added
+\dontrun{
+# A deletion report with DELFN 1 and 9 added
 
 
 del_report <- del_report \%>\%
--------DELFN 1 - Empty Place Holder Records-------
-add_listing_to_report(
+ add_listing_to_report(
  listing = pd_delimp \%>\%
    filter(DELFN == 1) \%>\%
    select(STUDY, USUBJID, VISIT, DV),
  title = "Empty Place Holder Records"
 ) \%>\%
--------DELFN 9 - Missing Concentration Value------
  add_listing_to_report(
    listing = pd_delimp \%>\%
      filter(DELFN == 9) \%>\%
      select(STUDY, USUBJID, VISIT, DV, SCF),
    title = "Missing Concentration Value"
  )
+}
 
 
 

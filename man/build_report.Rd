@@ -17,8 +17,9 @@ build_report(output_path = ".", file_name, ...)
 Initialize a listing report
 }
 \examples{
+\dontrun{
 del_report <- build_report(file_name = "deletion-listings")
-
+}
 
 
 }

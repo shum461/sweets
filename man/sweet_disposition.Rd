@@ -20,6 +20,8 @@ sweet_disposition(
 \item{group_vars}{grouping variables useful in disposition tables such as STUDY or STUDYID. If none are provided a default group="1" will be set}
 
 \item{cnt_n_keeps}{Deletion Flags DELFN that should be included in disposition table but do NOT remove subjects or rows.}
+
+\item{init_desc}{Initial description of records received default is "Concentration Records Received"}
 }
 \value{
 A disposition table.
@@ -28,8 +30,10 @@ A disposition table.
 Count the number of subjects and samples impacted by a "deletion flag" DELFN
 }
 \examples{
+\dontrun{
 sweet_disposition(subjid = USUBJID,
 group_vars = c(STUDY),
 cnt_n_keeps = c(16,24)
-)
+)}
+
 }

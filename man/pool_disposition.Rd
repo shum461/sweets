@@ -16,5 +16,7 @@ A pooled disposition table.
 Make a pooled disposition table
 }
 \examples{
+\dontrun{
 pool_disposition(disp_table = my_disposition_table)
+}
 }

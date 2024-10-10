@@ -18,6 +18,9 @@
 #'
 cnt_chocula <- function(df1,df2,vars,...){
 
+  #set visible bindings
+  n_1 <- n_2 <- NULL
+
   drop_vars <- c("n_1","n_2","n_diff","n_cumulative_1",
                  "n_cumulative_2","prop_1","prop_2","n_distinct_1","n_distinct_2")
 
@@ -61,6 +64,6 @@ cnt_chocula <- function(df1,df2,vars,...){
     dplyr::rename_with(~gsub(".x$","_1",.)) %>%
     dplyr::rename_with(~gsub(".y$","_2",.)) %>%
     dplyr::mutate(n_diff=n_1-n_2)%>%
-    dplyr::select(-one_of(drop_vars),any_of(drop_vars))
+    dplyr::select(-dplyr::one_of(drop_vars),dplyr::any_of(drop_vars))
 
 }

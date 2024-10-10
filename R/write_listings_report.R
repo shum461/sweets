@@ -8,7 +8,9 @@
 #' @param deletion_report A deletion report built using `build_report()` and `add_listing_to_report()`
 #' @param ...  Extra arguments to be passed to `reporter::write_report()`
 #' @examples
+#' \dontrun{
 #' write_listings_report(del_report)
+#' }
 #'
 #'
 #'
@@ -17,7 +19,8 @@
 
 write_listings_report = function(deletion_report,...){
 
-
+Lines <- NULL
+Delete <- NULL
   assertthat::assert_that(!purrr::is_null(deletion_report),
                           msg = "Build deletion report first")
 
@@ -48,22 +51,22 @@ write_listings_report = function(deletion_report,...){
   # The N= from each table are treated as new "objects"
   # in reporter and therefore \f page breaks are inappropriately added
   # Read in reporter output and get rid of extra spaces and breaks using readLines
-  data <- read_lines(path)
+  data <- brio::read_lines(path)
 
   listing_rows <- data.frame(Lines=seq_along(data),
                              Chars=nchar(data)
   )
 
   rows_to_delete <- listing_rows %>%
-    mutate(Delete=case_when(
-      Chars %in% c(0,1) & lag(Chars) %in% c(0,3,4) ~ "Y",
+    dplyr::mutate(Delete=dplyr::case_when(
+      Chars %in% c(0,1) & dplyr::lag(Chars) %in% c(0,3,4) ~ "Y",
       TRUE~ "N"
     )) %>%
-    filter(Delete=="Y") %>%
-    pull(Lines)
+    dplyr::filter(Delete=="Y") %>%
+    dplyr::pull(Lines)
 
   output_data <- data[-rows_to_delete]
 
-  write_lines(x=output_data,file=path,append=FALSE)
+  brio::write_lines(x=output_data,file=path,append=FALSE)
 
 }
