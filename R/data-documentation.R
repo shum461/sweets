@@ -4,6 +4,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' head(fake_date)
+#' head(fake_data)
 #' }
-
+"fake_data"

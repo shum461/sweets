@@ -2,6 +2,8 @@
 
 export("%>%")
 export(cnt_chocula)
+export(most_recent)
+export(sourpaths)
 export(sweet_disposition)
 export(sweet_save)
 importFrom(magrittr,"%>%")

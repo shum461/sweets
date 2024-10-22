@@ -12,6 +12,7 @@ Imports:
     cli,
     dmcognigen,
     dplyr,
+    DT,
     fs,
     lubridate,
     magrittr,
@@ -30,7 +31,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    simulations-plus/dmcognigen
+    simulations-plus/dmcognigen,
     simulations-plus/utilscognigen
 Config/testthat/edition: 3
 Encoding: UTF-8
