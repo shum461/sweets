@@ -4,17 +4,15 @@
 \alias{add_listing_to_report}
 \title{Add each listing to the initialized report}
 \usage{
-add_listing_to_report(deletion_report, listing, title, ...)
+add_listing_to_report(deletion_report, listing, ...)
 }
 \arguments{
-\item{deletion_report}{Name of initialized deletion report made with \code{build_report()}}
+\item{deletion_report}{Name of initialized deletion report made with \code{\link[=build_report]{build_report()}}}
 
 \item{listing}{Data to be used in the listing. Subset to variables that best portray why the data were deleted.
 Selected variables should be source variables if possible}
 
-\item{title}{Title to describe each unique listing in the report. Usually closely resembles DELFNC}
-
-\item{...}{additional arguments passed to reporter::create_table()}
+\item{...}{additional arguments passed to \code{\link[reporter:create_table]{reporter::create_table()}}}
 }
 \value{
 A deletion report object that includes all added listings and their titles
@@ -28,13 +26,6 @@ is used to build listings one deletion flag at a time
 # A deletion report with DELFN 1 and 9 added
 
 
-del_report <- del_report \%>\%
- add_listing_to_report(
- listing = pd_delimp \%>\%
-   filter(DELFN == 1) \%>\%
-   select(STUDY, USUBJID, VISIT, DV),
- title = "Empty Place Holder Records"
-) \%>\%
  add_listing_to_report(
    listing = pd_delimp \%>\%
      filter(DELFN == 9) \%>\%
