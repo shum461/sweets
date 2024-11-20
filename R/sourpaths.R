@@ -109,14 +109,16 @@ sourpaths <- function(full.names=TRUE,path=NULL,
 
 #' most recent
 #'
-#' @param path
+#' @param path filepath
 #' @param pattern one or more regex patters e.g. c("dm","lb")
 #'
-#' @return
+#' @return data frame
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
+#' most_recent()
+#'}
 
 
 most_recent <- function(path=NULL,pattern=NULL,newest_only=TRUE){

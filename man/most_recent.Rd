@@ -7,8 +7,18 @@
 most_recent(path = NULL, pattern = NULL, newest_only = TRUE)
 }
 \arguments{
+\item{path}{filepath}
+
 \item{pattern}{one or more regex patters e.g. c("dm","lb")}
+}
+\value{
+data frame
 }
 \description{
 most recent
+}
+\examples{
+\dontrun{
+most_recent()
+}
 }

@@ -43,7 +43,7 @@
 listing_table <- function(listing,title,...){
 
   if(missing(title)){
-    cli::cli_abort(text = "please provide a title for your listing table")
+    cli::cli_abort(message = "please provide a title for your listing table")
   }
 
 
