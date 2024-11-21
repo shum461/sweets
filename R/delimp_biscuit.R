@@ -44,7 +44,7 @@ delimp_table <- found_delimp_files_df %>%
     dplyr::group_by(base_names) %>%
     dplyr::mutate(data =  purrr::map(files,  ~ rio::import(.x)) %>%
              purrr::set_names(base_names)) %>%
-      dplyr::mutate(DELFN =  purrr::map_dbl(data,  ~ unique(pluck(.x, "DELFN"))))
+      dplyr::mutate(DELFN =  purrr::map_dbl(data,  ~ unique(purrr::pluck(.x, "DELFN"))))
 
 
 if(summary_tbl) {
