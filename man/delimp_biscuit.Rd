@@ -8,6 +8,9 @@ delimp_biscuit(delimp_paths, summary_tbl = TRUE)
 }
 \arguments{
 \item{delimp_paths}{a vector of one or more delimp directories}
+
+\item{summary_tbl}{returns a data.frame of delimp files when TRUE. If FALSE ]
+the deletion dataset (i.e. data frame of all delimp files) is returned instead}
 }
 \value{
 a nested data frame showing deletion flags in each directory

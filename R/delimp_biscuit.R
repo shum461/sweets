@@ -2,7 +2,8 @@
 #' delimp_biscuit
 #'
 #' @param delimp_paths a vector of one or more delimp directories
-#'
+#' @param summary_tbl returns a data.frame of delimp files when TRUE. If FALSE ]
+#' the deletion dataset (i.e. data frame of all delimp files) is returned instead
 #' @return a nested data frame showing deletion flags in each directory
 #' @export
 #'
@@ -11,6 +12,11 @@
 #' }
 
 delimp_biscuit <- function(delimp_paths,summary_tbl=TRUE){
+
+  . <- NULL
+  files <- NULL
+  base_names <- NULL
+  data <- NULL
 
   if(missing(delimp_paths)){
     delimp_paths <- "../data/delimp"
@@ -54,7 +60,7 @@ if(summary_tbl) {
 
 
 return(delimp_table %>%
-dplyr::unnest(.cols=c(data)) %>%
+tidyr::unnest(.cols=c(data)) %>%
   dplyr::select(-data)
 )
 

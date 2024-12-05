@@ -18,6 +18,7 @@ Imports:
     magrittr,
     purrr,
     reporter,
+    rio,
     tidyr,
     tools,
     utilscognigen
