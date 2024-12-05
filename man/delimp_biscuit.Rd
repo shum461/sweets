@@ -19,6 +19,12 @@ a nested data frame showing deletion flags in each directory
 delimp_biscuit
 }
 \examples{
-\dontrun{
+if(basename(getwd()) =="asmbdat" &&
+dir.exists("../data/delimp") &&
+length(list.files("../data/delimp")>=1 )) {
+
+delimp_biscuit(delimp_paths = "../data/delimp", summary_tbl = TRUE)
+
 }
+
 }
