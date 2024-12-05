@@ -32,6 +32,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   n <-  NULL
 
 
+
   # Not providing grouping variables will pool the disposition
   if (missing(group_vars)) {
     data <-  data %>%
@@ -41,6 +42,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
     group_vars <- "pooled_group"
 
     cli::cli_alert_warning("{.arg group_vars} is missing. No grouping variables found")
+
   }
 
   # ERROR if DDELFN missing
@@ -124,6 +126,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   else {
     reasons <- data %>%
     dplyr::distinct(DELFN)
+
     cli::cli_alert_info("Deletion Reason (DELFNC) was not provided")
 
     unique_DELFNC_check=NULL

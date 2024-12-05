@@ -28,6 +28,12 @@ delimp_biscuit <- function(delimp_paths,summary_tbl=TRUE){
     delimp_paths <- "../data/delimp"
   }
 
+  if(!dir.exists(delimp_paths)){
+  cli::cli_abort(message = "{.path {delimp_paths}} is not a valid directory")
+  }
+
+
+
 
   found_delimp_files <- list.files(path = delimp_paths, full.names = TRUE)
 
