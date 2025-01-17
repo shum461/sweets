@@ -14,6 +14,10 @@ check_models <- function(paths=c("../monolix/","../nm/")){
     cli::cli_warn(message = "{.arg {invalid_paths}}, are invalid paths")
   }
 
+  paths <- paths[file.exists(paths)]
+
+  if(length(paths)>=1){
+   paths %>%
     purrr::map_dfr(~fs::dir_info(.x,recurse = TRUE) %>%
               dplyr::filter( type =="file") %>%
               dplyr::mutate(output=basename(dirname(path)),
@@ -23,6 +27,6 @@ check_models <- function(paths=c("../monolix/","../nm/")){
                 min_modification_time=min(modification_time),
                 max_modification_time=max(modification_time)) %>%
                 dplyr::distinct(software,output,user,min_modification_time,max_modification_time) %>%
-                dplyr::filter(!user=="root")
-
-              )}
+                dplyr::filter(!user=="root"))
+}
+          }
