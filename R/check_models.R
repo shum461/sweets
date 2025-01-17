@@ -5,7 +5,14 @@ check_models <- function(paths=c("../monolix/","../nm/")){
 
   invalid_paths <- paths[!file.exists(paths)]
 
-  if(length(invalid_paths>1))
+  if(!sweet_asmbdat()){
+    cli::cli_warn("Intended for use in admbdat directory")
+  }
+
+  if(length(invalid_paths>=1)){
+
+    cli::cli_warn(message = "{.arg {invalid_paths}}, are invalid paths")
+  }
 
     purrr::map_dfr(~fs::dir_info(.x,recurse = TRUE) %>%
               dplyr::filter( type =="file") %>%
