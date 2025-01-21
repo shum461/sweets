@@ -1,0 +1,40 @@
+---
+title: "dispositions-and-listings"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{dispositions-and-listings}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(sweets)
+library(dmcognigen)
+
+#devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") 
+```
+
+
+load pk dataset
+```{r}
+data(broken_pk, package = "sweets")
+```
+
+check the deletion flags
+```{r}
+
+broken_pk %>%
+  cnt(DVID,DVIDC,
+      DELFN,DELFNC,prop = FALSE)
+```
+
