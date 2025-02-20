@@ -67,30 +67,132 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shum461.github.io/sweets/">sweets</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Welcome 🍩 to 🍰 sweets 🍭</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://simulations-plus.github.io/dmcognigen/" class="external-link">dmcognigen</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span></span>
 <span><span class="co">#devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") </span></span></code></pre></div>
-<p>load pk dataset</p>
+<p>During the data build records are flagged with a deletion flag
+variable called DELFN and removed. Records that have been removed are
+stored in the delimp directory. To do the disposition counts the removed
+records are added back to the data build. For this vignette we are
+starting at this step where deleted delimp records have already been
+added back to the built analysis ready dataset.</p>
+<div class="section level2">
+<h2 id="load-the-dataset">1) Load the dataset<a class="anchor" aria-label="anchor" href="#load-the-dataset"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">broken_pk</span>, package <span class="op">=</span> <span class="st">"sweets"</span><span class="op">)</span></span></code></pre></div>
-<p>check the deletion flags</p>
+<div class="section level3">
+<h3 id="check-the-deletion-flags-">Check the deletion flags.<a class="anchor" aria-label="anchor" href="#check-the-deletion-flags-"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">broken_pk</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">DVID</span>,<span class="va">DVIDC</span>,</span>
-<span>      <span class="va">DELFN</span>,<span class="va">DELFNC</span>,prop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 6</span></span></span>
-<span><span class="co">#&gt;    DVID DVIDC                            DELFN DELFNC             n n_cumulative</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 Dose                                 0 Analysis Reco…   167          167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     0 Dose                                 7 Placebo Group…    86          253</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     0 Dose                                14 Missing Dose …     1          254</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 Xanomeline Concentration (ug/mL)     0 Analysis Reco…  <span style="text-decoration: underline;">2</span>153         <span style="text-decoration: underline;">2</span>407</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 Xanomeline Concentration (ug/mL)     7 Placebo Group…  <span style="text-decoration: underline;">1</span>118         <span style="text-decoration: underline;">3</span>525</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     1 Xanomeline Concentration (ug/mL)     9 Missing Conce…     8         <span style="text-decoration: underline;">3</span>533</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     1 Xanomeline Concentration (ug/mL)    10 Missing Sampl…     8         <span style="text-decoration: underline;">3</span>541</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     1 Xanomeline Concentration (ug/mL)    14 Missing Dose …    13         <span style="text-decoration: underline;">3</span>554</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span>     1 Xanomeline Concentration (ug/mL)    50 Analyst-Ident…     2         <span style="text-decoration: underline;">3</span>556</span></span></code></pre></div>
-  </main>
+<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">DELFN</span>,<span class="va">DELFNC</span>,prop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   DELFN DELFNC                                         n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 Analysis Record                             <span style="text-decoration: underline;">2</span>320         <span style="text-decoration: underline;">2</span>320</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7 Placebo Group Not Included in the Analysis  <span style="text-decoration: underline;">1</span>204         <span style="text-decoration: underline;">3</span>524</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     9 Missing Concentration Value                    8         <span style="text-decoration: underline;">3</span>532</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10 Missing Sample Date and/or Time                8         <span style="text-decoration: underline;">3</span>540</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    14 Missing Dose Date or Time                     14         <span style="text-decoration: underline;">3</span>554</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    50 Analyst-Identified Outliers                    2         <span style="text-decoration: underline;">3</span>556</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="check-dvid">Check DVID<a class="anchor" aria-label="anchor" href="#check-dvid"></a>
+</h3>
+<p>We want to track and count the removal of
+<strong>concentration</strong> records, not <strong>dose</strong>
+records (i.e. DVID=0 &amp; EVID=1). DELFN = 0 are records kept for the
+analysis ready dataset build. Records with Non zero DELFN were removed,
+stored in delimp and combined back for the disposition and listings.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">broken_pk</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">DVID</span>,<span class="va">DVIDC</span>,prop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;    DVID DVIDC                                n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 Dose                               254          254</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 Xanomeline Concentration (ug/mL)  <span style="text-decoration: underline;">3</span>302         <span style="text-decoration: underline;">3</span>556</span></span></code></pre></div>
+<p>For the deletions that involve dose records, deletion flags are
+carried from the dose record (DVID=0, EVID=1) onto the affected
+concentration records (DVID=1) after the dose record of concern. Here we
+see all the concentration records after the missing dose DTTM have flag
+14.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">broken_pk</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">USUBJID</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">DELFN</span><span class="op">==</span><span class="fl">14</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>,<span class="va">DTTM</span>,<span class="va">DVID</span>,<span class="va">TSFD</span>,<span class="va">DELFN</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   USUBJID [1]</span></span></span>
+<span><span class="co">#&gt;    USUBJID     DTTM                 DVID    TSFD DELFN</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 01-709-1326 <span style="color: #BB0000;">NA</span>                      0  0         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 01-709-1326 2013-04-05 <span style="color: #949494;">00:05:00</span>     1  0.083<span style="text-decoration: underline;">3</span>    14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 01-709-1326 2013-04-05 <span style="color: #949494;">00:30:00</span>     1  0.5       14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 01-709-1326 2013-04-05 <span style="color: #949494;">01:00:00</span>     1  1         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 01-709-1326 2013-04-05 <span style="color: #949494;">01:30:00</span>     1  1.5       14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 01-709-1326 2013-04-05 <span style="color: #949494;">02:00:00</span>     1  2         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 01-709-1326 2013-04-05 <span style="color: #949494;">04:00:00</span>     1  4         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 01-709-1326 2013-04-05 <span style="color: #949494;">06:00:00</span>     1  6         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 01-709-1326 2013-04-05 <span style="color: #949494;">08:00:00</span>     1  8         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 01-709-1326 2013-04-05 <span style="color: #949494;">12:00:00</span>     1 12         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 01-709-1326 2013-04-05 <span style="color: #949494;">16:00:00</span>     1 16         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 01-709-1326 2013-04-06 <span style="color: #949494;">00:00:00</span>     1 24         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 01-709-1326 2013-04-06 <span style="color: #949494;">12:00:00</span>     1 36         14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 01-709-1326 2013-04-07 <span style="color: #949494;">00:00:00</span>     1 48         14</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="subset-the-data-build-to-concentration-i-e--sample-records-only">2) Subset the data build to concentration i.e. sample records
+only<a class="anchor" aria-label="anchor" href="#subset-the-data-build-to-concentration-i-e--sample-records-only"></a>
+</h2>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">broken_pk_samples</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">broken_pk</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">EVID</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<p>Just concentration records are left</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://simulations-plus.github.io/dmcognigen/reference/cnt.html" class="external-link">cnt</a></span><span class="op">(</span><span class="va">DVID</span>,<span class="va">DVIDC</span>,prop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">#&gt;    DVID DVIDC                                n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 Xanomeline Concentration (ug/mL)  <span style="text-decoration: underline;">3</span>302         <span style="text-decoration: underline;">3</span>302</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="make-a-disposition-table">3) Make a disposition table<a class="anchor" aria-label="anchor" href="#make-a-disposition-table"></a>
+</h2>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">disposition_table</span> <span class="op">&lt;-</span> <span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `group_vars` is missing. No grouping variables found</span></span>
+<span><span class="co">#&gt; Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in</span></span>
+<span><span class="co">#&gt; dplyr 1.1.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that `reframe()`</span></span>
+<span><span class="co">#&gt;   always returns an ungrouped data frame and adjust accordingly.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">sweets</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
