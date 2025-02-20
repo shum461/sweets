@@ -26,7 +26,10 @@ broken_pk <-
                      DELFN==14 ~ "Missing Dose Date or Time",
                      DELFN==50 ~ "Analyst-Identified Outliers",
                      TRUE ~ "Analysis Record")
-    )
+    ) %>%
+    mutate(STUDYID=ifelse(
+      as.numeric(stringr::str_extract(USUBJID,pattern = "\\d$")) %in% c(2,4,6,8),"CDISCPILOT02",
+      STUDYID))
 
 
 
@@ -35,6 +38,10 @@ broken_pk <-
 broken_pk %>%
   cnt(DVID,DVIDC,
       DELFN,DELFNC)
+
+
+broken_pk %>%
+  cnt(STUDYID)
 
 # write -------------------------------------------------------------------
 

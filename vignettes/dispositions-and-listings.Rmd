@@ -20,21 +20,69 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(sweets)
 library(dmcognigen)
+library(dplyr)
 
 #devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") 
 ```
 
 
-load pk dataset
+
+During the data build records are flagged with a deletion flag variable called DELFN and removed. Records that have been removed are stored in the delimp directory. To do the disposition counts the removed records are added back to the data build. For this vignette we are starting at this step where deleted delimp records have already been added back to the built analysis ready dataset. 
+
+
+# 1) Load the dataset 
 ```{r}
 data(broken_pk, package = "sweets")
 ```
 
-check the deletion flags
+## Check the deletion flags.
 ```{r}
 
 broken_pk %>%
-  cnt(DVID,DVIDC,
-      DELFN,DELFNC,prop = FALSE)
+  cnt(DELFN,DELFNC,prop = FALSE)
+```
+
+
+## Check DVID
+We want to track and count the removal of **concentration** records,
+not **dose** records (i.e. DVID=0 & EVID=1). DELFN = 0 are records kept for the analysis ready dataset build. Records with Non zero DELFN were removed, stored in delimp and combined back for the disposition and listings. 
+```{r}
+
+broken_pk %>%
+  cnt(DVID,DVIDC,prop = FALSE)
+
+```
+
+For the deletions that involve dose records, deletion flags are carried from the dose record (DVID=0, EVID=1) onto the affected concentration records (DVID=1) after the dose record of concern. Here we see all the concentration records after the missing dose DTTM have flag 14.
+```{r}
+
+broken_pk %>%
+    group_by(USUBJID) %>%
+    filter(any(DELFN==14)) %>%
+    select(USUBJID,DTTM,DVID,TSFD,DELFN)
+
+```
+
+# 2) Subset the data build to concentration i.e. sample records only
+```{r}
+
+broken_pk_samples <- 
+  broken_pk %>%
+  filter(EVID==0)
+
+```
+
+Just concentration records are left
+```{r}
+broken_pk_samples %>%
+  cnt(DVID,DVIDC,prop = FALSE)
+```
+
+# 3) Make a disposition table
+```{r}
+
+disposition_table <- broken_pk_samples %>%
+  sweet_disposition(subjid = USUBJID)
+
 ```
 
