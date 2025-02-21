@@ -175,21 +175,59 @@ only<a class="anchor" aria-label="anchor" href="#subset-the-data-build-to-concen
 <div class="section level2">
 <h2 id="make-a-disposition-table">3) Make a disposition table<a class="anchor" aria-label="anchor" href="#make-a-disposition-table"></a>
 </h2>
+<p>Here we are splitting by STUDYID</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">disposition_table</span> <span class="op">&lt;-</span> <span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `group_vars` is missing. No grouping variables found</span></span>
-<span><span class="co">#&gt; Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in</span></span>
-<span><span class="co">#&gt; dplyr 1.1.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that `reframe()`</span></span>
-<span><span class="co">#&gt;   always returns an ungrouped data frame and adjust accordingly.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">sweets</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<span><span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span>,group_vars <span class="op">=</span> <span class="va">STUDYID</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
+<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected`</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  1                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  1                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: `Subjects Excluded` &lt;dbl&gt;, `Remaining Samples` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>maybe the analyst changed their mind and now we want to keep DELFN 50
+(Analyst-Identified Outliers) records in the dataset. Let’s set DELFN 50
+as a ‘count and keep’ flag. Notice how the 2 samples that were
+previously removed are now only ‘Affected’ and not ‘Excluded’</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span>,</span>
+<span>                    group_vars <span class="op">=</span> <span class="va">STUDYID</span>,</span>
+<span>                    cnt_n_keeps <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
+<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected`</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  0                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  0                   1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: `Subjects Excluded` &lt;dbl&gt;, `Remaining Samples` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
