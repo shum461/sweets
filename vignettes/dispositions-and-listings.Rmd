@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning=FALSE}
 library(sweets)
 library(dmcognigen)
 library(dplyr)
@@ -79,10 +79,24 @@ broken_pk_samples %>%
 ```
 
 # 3) Make a disposition table
+Here we are splitting by STUDYID
 ```{r}
 
-disposition_table <- broken_pk_samples %>%
-  sweet_disposition(subjid = USUBJID)
+broken_pk_samples %>%
+  sweet_disposition(subjid = USUBJID,group_vars = STUDYID) %>%
+  print(n=15)
 
 ```
 
+maybe the analyst changed their mind and now we want to keep DELFN 50
+(Analyst-Identified Outliers) records in the dataset. Let's set DELFN 50 as a 'count and keep' flag. Notice how the 2 samples that were previously removed are now only 'Affected' and not 'Excluded' 
+
+```{r}
+
+broken_pk_samples %>%
+  sweet_disposition(subjid = USUBJID,
+                    group_vars = STUDYID,
+                    cnt_n_keeps = 50) %>%
+  print(n = 15)
+
+```

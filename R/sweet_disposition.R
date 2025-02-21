@@ -120,7 +120,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
     unique_DELFNC_check <- data %>%
       dplyr::group_by(DELFN) %>%
-      dplyr::summarise(N_DELFNC=dplyr::n_distinct(DELFNC),
+      dplyr::reframe(N_DELFNC=dplyr::n_distinct(DELFNC),
                        DELFNC=DELFNC)
   }
   else {
