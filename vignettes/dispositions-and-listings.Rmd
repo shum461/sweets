@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 pre, code {white-space:pre !important; overflow-x:auto}
 ```
 
-```{r setup, warning=FALSE}
+```{r setup, warning=FALSE,message=FALSE}
 library(sweets)
 library(dmcognigen)
 library(dplyr,quietly = TRUE)
