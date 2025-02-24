@@ -1,4 +1,3 @@
-
 #' Make a pooled disposition table
 #'
 #' @param disp_table an object of class 'disposition_table'
@@ -8,9 +7,6 @@
 #' \dontrun{
 #' pool_disposition(disp_table = my_disposition_table)
 #' }
-
-
-
 
 
 pool_disposition <- function(disp_table){

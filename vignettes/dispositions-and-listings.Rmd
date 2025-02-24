@@ -107,6 +107,7 @@ disposition_table %>%
 Someone changed their mind and now we want to keep DELFN 50 (Analyst-Identified Outliers) records in the dataset. Let's set DELFN 50 as a 'count and keep' flag. Notice how the 2 samples that were previously removed are now only 'Affected' and not 'Excluded'
 
 }
+
 ```{r}
 
 broken_pk_samples %>%
@@ -118,7 +119,9 @@ broken_pk_samples %>%
 ```
 
 ## Pool disposition
-pooling a disposition with pool_disposition() will ignore any group stratification set in your disposition table and add a Grand Total row. 
+
+pooling a disposition with pool_disposition() will ignore any group stratification set in your disposition table and add a Grand Total row.
+
 ```{r}
 
 pooled_disposition <- disposition_table %>%
@@ -131,7 +134,9 @@ pooled_disposition %>%
 ```
 
 ## Filtered disposition
+
 For most projects it makes sense to include a "report" version of the disposition table with only DELFN greater than 7
+
 ```{r}
 
 report_disposition <- disposition_table %>%
@@ -155,10 +160,8 @@ writexl::write_xlsx(disposition_tabs,"disposition.xlsx")
 
 ```
 
-
-:::{.callout-warning}
-It is best practice to refer back to the counts in your code and check 
-the results against your newly generated disposition table
+::: {.callout-warning}
+It is best practice to refer back to the counts in your code and check the results against your newly generated disposition table
 :::
 
 # Deletion Listings
