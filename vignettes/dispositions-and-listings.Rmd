@@ -32,9 +32,11 @@ library(dplyr,warn.conflicts = FALSE)
 
 ```
 
+::: {.callout-note}
 During the data build records are flagged with a deletion flag variable called DELFN and removed. Records that have been removed are stored in the delimp directory. To do the disposition counts the removed records are added back to the data build. For this vignette we are starting at this step where deleted delimp records have already been added back to the built analysis ready dataset.
+:::
 
-# 1) Load the dataset
+# 1) Load a dataset
 
 ```{r}
 data(broken_pk, package = "sweets")
@@ -93,9 +95,12 @@ Here we are splitting by STUDYID
 
 ```{r}
 
-broken_pk_samples %>%
-  sweet_disposition(subjid = USUBJID,group_vars = STUDYID) %>%
+disposition_table <- broken_pk_samples %>%
+  sweet_disposition(subjid = USUBJID,group_vars = STUDYID) 
+
+disposition_table %>%
   print(n = 15,width = Inf)
+
 
 ```
 
@@ -112,3 +117,48 @@ broken_pk_samples %>%
 
 ```
 
+## Pool disposition
+pooling a disposition with pool_disposition() will ignore any group stratification set in your disposition table and add a Grand Total row. 
+```{r}
+
+pooled_disposition <- disposition_table %>%
+  pool_disposition() 
+
+pooled_disposition %>%
+  print(n = 15, width = Inf)
+
+
+```
+
+## Filtered disposition
+For most projects it makes sense to include a "report" version of the disposition table with only DELFN greater than 7
+```{r}
+
+report_disposition <- disposition_table %>%
+  filter(`Flag #`> 7) 
+
+report_disposition %>%
+  print(n = 15, width = Inf)
+
+```
+
+## Write disposition
+
+```{r, echo=TRUE, eval=FALSE}
+
+disposition_tabs <- list("pooled"= pooled_disposition,
+                         "report"= report_disposition,
+                         "programmer"= disposition_table,
+                         )
+
+writexl::write_xlsx(disposition_tabs,"disposition.xlsx")
+
+```
+
+
+:::{.callout-warning}
+It is best practice to refer back to the counts in your code and check 
+the results against your newly generated disposition table
+:::
+
+# Deletion Listings

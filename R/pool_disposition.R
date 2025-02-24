@@ -3,6 +3,7 @@
 #'
 #' @param disp_table an object of class 'disposition_table'
 #' @return A pooled disposition table.
+#' @export
 #' @examples
 #' \dontrun{
 #' pool_disposition(disp_table = my_disposition_table)
