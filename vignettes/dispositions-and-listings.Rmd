@@ -11,7 +11,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-options(width=120)
+options(width=250)
 
 knitr::opts_chunk$set( 
   collapse = TRUE,
@@ -94,7 +94,7 @@ Here we are splitting by STUDYID
 
 broken_pk_samples %>%
   sweet_disposition(subjid = USUBJID,group_vars = STUDYID) %>%
-  print(n=15)
+  print(n = 15,width = Inf)
 
 ```
 
@@ -107,7 +107,7 @@ broken_pk_samples %>%
   sweet_disposition(subjid = USUBJID,
                     group_vars = STUDYID,
                     cnt_n_keeps = 50) %>%
-  print(n = 15)
+  print(n = 15,width = Inf)
 
 ```
 
