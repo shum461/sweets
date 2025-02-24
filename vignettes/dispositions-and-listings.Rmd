@@ -11,10 +11,16 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
+options(width=120)
+
+knitr::opts_chunk$set( 
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{css, echo=FALSE}
+pre, code {white-space:pre !important; overflow-x:auto}
 ```
 
 ```{r setup, warning=FALSE}
@@ -25,27 +31,26 @@ library(dplyr)
 #devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") 
 ```
 
+During the data build records are flagged with a deletion flag variable called DELFN and removed. Records that have been removed are stored in the delimp directory. To do the disposition counts the removed records are added back to the data build. For this vignette we are starting at this step where deleted delimp records have already been added back to the built analysis ready dataset.
 
+# 1) Load the dataset
 
-During the data build records are flagged with a deletion flag variable called DELFN and removed. Records that have been removed are stored in the delimp directory. To do the disposition counts the removed records are added back to the data build. For this vignette we are starting at this step where deleted delimp records have already been added back to the built analysis ready dataset. 
-
-
-# 1) Load the dataset 
 ```{r}
 data(broken_pk, package = "sweets")
 ```
 
 ## Check the deletion flags.
+
 ```{r}
 
 broken_pk %>%
   cnt(DELFN,DELFNC,prop = FALSE)
 ```
 
-
 ## Check DVID
-We want to track and count the removal of **concentration** records,
-not **dose** records (i.e. DVID=0 & EVID=1). DELFN = 0 are records kept for the analysis ready dataset build. Records with Non zero DELFN were removed, stored in delimp and combined back for the disposition and listings. 
+
+We want to track and count the removal of **concentration** records, not **dose** records (i.e. DVID=0 & EVID=1). DELFN = 0 are records kept for the analysis ready dataset build. Records with Non zero DELFN were removed, stored in delimp and combined back for the disposition and listings.
+
 ```{r}
 
 broken_pk %>%
@@ -54,6 +59,7 @@ broken_pk %>%
 ```
 
 For the deletions that involve dose records, deletion flags are carried from the dose record (DVID=0, EVID=1) onto the affected concentration records (DVID=1) after the dose record of concern. Here we see all the concentration records after the missing dose DTTM have flag 14.
+
 ```{r}
 
 broken_pk %>%
@@ -64,6 +70,7 @@ broken_pk %>%
 ```
 
 # 2) Subset the data build to concentration i.e. sample records only
+
 ```{r}
 
 broken_pk_samples <- 
@@ -73,13 +80,16 @@ broken_pk_samples <-
 ```
 
 Just concentration records are left
+
 ```{r}
 broken_pk_samples %>%
   cnt(DVID,DVIDC,prop = FALSE)
 ```
 
 # 3) Make a disposition table
+
 Here we are splitting by STUDYID
+
 ```{r}
 
 broken_pk_samples %>%
@@ -88,9 +98,9 @@ broken_pk_samples %>%
 
 ```
 
-maybe the analyst changed their mind and now we want to keep DELFN 50
-(Analyst-Identified Outliers) records in the dataset. Let's set DELFN 50 as a 'count and keep' flag. Notice how the 2 samples that were previously removed are now only 'Affected' and not 'Excluded' 
+Someone changed their mind and now we want to keep DELFN 50 (Analyst-Identified Outliers) records in the dataset. Let's set DELFN 50 as a 'count and keep' flag. Notice how the 2 samples that were previously removed are now only 'Affected' and not 'Excluded'
 
+}
 ```{r}
 
 broken_pk_samples %>%
@@ -100,3 +110,4 @@ broken_pk_samples %>%
   print(n = 15)
 
 ```
+
