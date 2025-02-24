@@ -15,20 +15,21 @@ options(width=250,tibble.print_min=Inf,tibble.width=Inf)
 
 knitr::opts_chunk$set( 
   collapse = TRUE,
-  comment = "#"
+  comment = "#>"
 )
+
+#devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") 
 ```
 
 ```{css, echo=FALSE}
 pre, code {white-space:pre !important; overflow-x:auto}
 ```
 
-```{r setup, warning=FALSE,message=FALSE}
+```{r setup, warning=FALSE}
 library(sweets)
-library(dmcognigen)
-library(dplyr,quietly = TRUE)
+library(dmcognigen,warn.conflicts = FALSE)
+library(dplyr)
 
-#devtools::build_rmd("vignettes/dispositions-and-listings.Rmd") 
 ```
 
 During the data build records are flagged with a deletion flag variable called DELFN and removed. Records that have been removed are stored in the delimp directory. To do the disposition counts the removed records are added back to the data build. For this vignette we are starting at this step where deleted delimp records have already been added back to the built analysis ready dataset.
