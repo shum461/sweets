@@ -15,7 +15,7 @@ options(width=250)
 
 knitr::opts_chunk$set( 
   collapse = TRUE,
-  comment = "#>"
+  comment = ""
 )
 ```
 
