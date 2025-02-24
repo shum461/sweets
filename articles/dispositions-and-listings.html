@@ -63,6 +63,9 @@
 
     
     
+<style type="text/css">
+pre, code {white-space:pre !important; overflow-x:auto}
+</style>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shum461.github.io/sweets/">sweets</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Welcome 🍩 to 🍰 sweets 🍭</span></span>
@@ -183,26 +186,26 @@ only<a class="anchor" aria-label="anchor" href="#subset-the-data-build-to-concen
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
-<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected`</span></span>
-<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  1                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  1                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: `Subjects Excluded` &lt;dbl&gt;, `Remaining Samples` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
-<p>maybe the analyst changed their mind and now we want to keep DELFN 50
+<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected` `Subjects Excluded` `Remaining Samples`</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">2</span>028</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">1</span>274</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53                  53                <span style="text-decoration: underline;">1</span>339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33                  33                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2                   0                <span style="text-decoration: underline;">1</span>331</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0                   0                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2                   0                <span style="text-decoration: underline;">1</span>323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0                   0                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">1</span>323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1                   1                 832</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  1                   1                   0                <span style="text-decoration: underline;">1</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  1                   1                   0                 831</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>Someone changed their mind and now we want to keep DELFN 50
 (Analyst-Identified Outliers) records in the dataset. Let’s set DELFN 50
 as a ‘count and keep’ flag. Notice how the 2 samples that were
 previously removed are now only ‘Affected’ and not ‘Excluded’</p>
+<p>}</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -212,22 +215,21 @@ previously removed are now only ‘Affected’ and not ‘Excluded’</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
-<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected`</span></span>
-<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  0                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  0                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: `Subjects Excluded` &lt;dbl&gt;, `Remaining Samples` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    `Flag #` `Reason for Deletion` STUDYID `Samples Excluded` `Subjects Affected` `Subjects Excluded` `Remaining Samples`</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        0 Concentration Record… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">2</span>028</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        0 Concentration Record… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">1</span>274</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        7 Placebo Group Not In… CDISCP…                689                  53                  53                <span style="text-decoration: underline;">1</span>339</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        7 Placebo Group Not In… CDISCP…                429                  33                  33                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        9 Missing Concentratio… CDISCP…                  8                   2                   0                <span style="text-decoration: underline;">1</span>331</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        9 Missing Concentratio… CDISCP…                  0                   0                   0                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       10 Missing Sample Date … CDISCP…                  8                   2                   0                <span style="text-decoration: underline;">1</span>323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       10 Missing Sample Date … CDISCP…                  0                   0                   0                 845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       14 Missing Dose Date or… CDISCP…                  0                   0                   0                <span style="text-decoration: underline;">1</span>323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or… CDISCP…                 13                   1                   1                 832</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified O… CDISCP…                  0                   1                   0                <span style="text-decoration: underline;">1</span>323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified O… CDISCP…                  0                   1                   0                 832</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Remaining Subjects` &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
