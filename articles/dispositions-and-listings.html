@@ -71,14 +71,16 @@ pre, code {white-space:pre !important; overflow-x:auto}
 <span><span class="co">#&gt; Welcome 🍩 to 🍰 sweets 🍭</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://simulations-plus.github.io/dmcognigen/" class="external-link">dmcognigen</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>,warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="callout-note">
 <p>During the data build records are flagged with a deletion flag
 variable called DELFN and removed. Records that have been removed are
 stored in the delimp directory. To do the disposition counts the removed
 records are added back to the data build. For this vignette we are
 starting at this step where deleted delimp records have already been
 added back to the built analysis ready dataset.</p>
+</div>
 <div class="section level2">
-<h2 id="load-the-dataset">1) Load the dataset<a class="anchor" aria-label="anchor" href="#load-the-dataset"></a>
+<h2 id="load-a-dataset">1) Load a dataset<a class="anchor" aria-label="anchor" href="#load-a-dataset"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">broken_pk</span>, package <span class="op">=</span> <span class="st">"sweets"</span><span class="op">)</span></span></code></pre></div>
@@ -171,8 +173,10 @@ only<a class="anchor" aria-label="anchor" href="#subset-the-data-build-to-concen
 <p>Here we are splitting by STUDYID</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span>,group_vars <span class="op">=</span> <span class="va">STUDYID</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">disposition_table</span> <span class="op">&lt;-</span> <span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/sweet_disposition.html">sweet_disposition</a></span><span class="op">(</span>subjid <span class="op">=</span> <span class="va">USUBJID</span>,group_vars <span class="op">=</span> <span class="va">STUDYID</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">disposition_table</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span>,width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
@@ -218,6 +222,76 @@ previously removed are now only ‘Affected’ and not ‘Excluded’</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>       14 Missing Dose Date or Time                  CDISCPILOT02                 13                   1                   1                 832                   64</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>       50 Analyst-Identified Outliers                CDISCPILOT01                  0                   1                   0                <span style="text-decoration: underline;">1</span>323                  103</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>       50 Analyst-Identified Outliers                CDISCPILOT02                  0                   1                   0                 832                   64</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="pool-disposition">Pool disposition<a class="anchor" aria-label="anchor" href="#pool-disposition"></a>
+</h3>
+<p>pooling a disposition with pool_disposition() will ignore any group
+stratification set in your disposition table and add a Grand Total
+row.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">pooled_disposition</span> <span class="op">&lt;-</span> <span class="va">disposition_table</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/pool_disposition.html">pool_disposition</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Grand Total of `Subjects Affected` is unique subjects affected</span></span>
+<span></span>
+<span><span class="va">pooled_disposition</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 6</span></span></span>
+<span><span class="co">#&gt;   `Reason for Deletion`                      `Samples Excluded` `Subjects Affected` `Subjects Excluded` `Remaining Samples` `Remaining Subjects`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Concentration Records Received                              0                   0                   0                <span style="text-decoration: underline;">3</span>302                  254</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Placebo Group Not Included in the Analysis               <span style="text-decoration: underline;">1</span>118                  86                  86                <span style="text-decoration: underline;">2</span>184                  168</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Missing Concentration Value                                 8                   2                   0                <span style="text-decoration: underline;">2</span>176                  168</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Missing Sample Date and/or Time                             8                   2                   0                <span style="text-decoration: underline;">2</span>168                  168</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Missing Dose Date or Time                                  13                   1                   1                <span style="text-decoration: underline;">2</span>155                  167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Analyst-Identified Outliers                                 2                   2                   0                <span style="text-decoration: underline;">2</span>153                  167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Grand Total                                              <span style="text-decoration: underline;">1</span>149                  93                  87                <span style="text-decoration: underline;">2</span>153                  167</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="filtered-disposition">Filtered disposition<a class="anchor" aria-label="anchor" href="#filtered-disposition"></a>
+</h3>
+<p>For most projects it makes sense to include a “report” version of the
+disposition table with only DELFN greater than 7</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">report_disposition</span> <span class="op">&lt;-</span> <span class="va">disposition_table</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">`Flag #`</span><span class="op">&gt;</span> <span class="fl">7</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">report_disposition</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   STUDYID [2]</span></span></span>
+<span><span class="co">#&gt;   `Flag #` `Reason for Deletion`           STUDYID      `Samples Excluded` `Subjects Affected` `Subjects Excluded` `Remaining Samples` `Remaining Subjects`</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        9 Missing Concentration Value     CDISCPILOT01                  8                   2                   0                <span style="text-decoration: underline;">1</span>331                  103</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        9 Missing Concentration Value     CDISCPILOT02                  0                   0                   0                 845                   65</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       10 Missing Sample Date and/or Time CDISCPILOT01                  8                   2                   0                <span style="text-decoration: underline;">1</span>323                  103</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       10 Missing Sample Date and/or Time CDISCPILOT02                  0                   0                   0                 845                   65</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       14 Missing Dose Date or Time       CDISCPILOT01                  0                   0                   0                <span style="text-decoration: underline;">1</span>323                  103</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       14 Missing Dose Date or Time       CDISCPILOT02                 13                   1                   1                 832                   64</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>       50 Analyst-Identified Outliers     CDISCPILOT01                  1                   1                   0                <span style="text-decoration: underline;">1</span>322                  103</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>       50 Analyst-Identified Outliers     CDISCPILOT02                  1                   1                   0                 831                   64</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="write-disposition">Write disposition<a class="anchor" aria-label="anchor" href="#write-disposition"></a>
+</h3>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">disposition_tabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"pooled"</span><span class="op">=</span> <span class="va">pooled_disposition</span>,</span>
+<span>                         <span class="st">"report"</span><span class="op">=</span> <span class="va">report_disposition</span>,</span>
+<span>                         <span class="st">"programmer"</span><span class="op">=</span> <span class="va">disposition_table</span>,</span>
+<span>                         <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">writexl</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/writexl//reference/write_xlsx.html" class="external-link">write_xlsx</a></span><span class="op">(</span><span class="va">disposition_tabs</span>,<span class="st">"disposition.xlsx"</span><span class="op">)</span></span></code></pre></div>
+<div class="callout-warning">
+<p>It is best practice to refer back to the counts in your code and
+check the results against your newly generated disposition table</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="deletion-listings">Deletion Listings<a class="anchor" aria-label="anchor" href="#deletion-listings"></a>
+</h2>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
