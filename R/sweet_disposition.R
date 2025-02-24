@@ -7,11 +7,11 @@
 #' @param init_desc Initial description of records received default is "Concentration Records Received"
 #' @return A disposition table.
 #' @examples
-#' \dontrun{
-#' sweet_disposition(subjid = USUBJID,
-#' group_vars = c(STUDY),
-#' cnt_n_keeps = c(16,24)
-#' )}
+#'
+#' broken_pk %>%
+#'   dplyr::filter(EVID == 0) %>%
+#'   sweet_disposition(subjid = USUBJID, group_vars = STUDYID)
+#'
 #'
 #' @export
 
