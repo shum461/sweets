@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sweets <a href="https://github.com/shum461/sweets"><img src="man/figures/logo.png" alt="sweets website" align="right" height="150"/></a>
+# sweets <a href="https://github.com/shum461/sweets"><img src="man/figures/logo.png" alt="sweets website" align="right" height="190"/></a>
 
 <!-- badges: start -->
 <!-- badges: end -->

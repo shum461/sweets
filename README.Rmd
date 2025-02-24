@@ -7,13 +7,13 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "",
   fig.path = "man/figures/README-",
   out.width = "100%"
 ) 
 ```
 
-# sweets <a href="https://github.com/shum461/sweets"><img src="man/figures/logo.png" alt="sweets website" align="right" height="150"/></a>
+# sweets <a href="https://github.com/shum461/sweets"><img src="man/figures/logo.png" alt="sweets website" align="right" height="190"/></a>
 
 <!-- badges: start -->
 

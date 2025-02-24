@@ -30,10 +30,10 @@ A disposition table.
 Count the number of subjects and samples impacted by a "deletion flag" DELFN
 }
 \examples{
-\dontrun{
-sweet_disposition(subjid = USUBJID,
-group_vars = c(STUDY),
-cnt_n_keeps = c(16,24)
-)}
+
+broken_pk \%>\%
+  dplyr::filter(EVID == 0) \%>\%
+  sweet_disposition(subjid = USUBJID, group_vars = STUDYID)
+
 
 }
