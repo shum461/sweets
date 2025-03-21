@@ -49,11 +49,17 @@
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>filepath</p></dd>
+<dd><p>filepath passed to
+<code>path</code> argument in fs::dir_ls(). Defaut is /dataorig</p></dd>
 
 
 <dt id="arg-pattern">pattern<a class="anchor" aria-label="anchor" href="#arg-pattern"></a></dt>
-<dd><p>one or more regex patters e.g. c("dm","lb")</p></dd>
+<dd><p>one or more regex patters e.g. c("dm","lb") to be passed to
+<code>regexp</code> argument in fs::dir_ls()</p></dd>
+
+
+<dt id="arg-newest-only">newest_only<a class="anchor" aria-label="anchor" href="#arg-newest-only"></a></dt>
+<dd><p>return all paths or just the newest default is <code>TRUE</code></p></dd>
 
 </dl></div>
     <div class="section level2">
