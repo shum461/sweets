@@ -79,6 +79,7 @@ sourpaths <- function(full.names=TRUE,path=NULL,
     DT::datatable(
       colnames = "The following datasets have been created as requested:",
       rownames = FALSE,
+      filter="top",
       extensions = 'Buttons',
       options = list(dom = 'Bfrtip', buttons = list(
         list(

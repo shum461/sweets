@@ -127,7 +127,8 @@ if(!rlang::quo_is_null(enquo(missing_where))){
    dplyr::mutate(dplyr::across(dplyr::starts_with("missing_where_"),~dplyr::na_if(.x,""))) %>%
    data.frame()
 
-
+# TODO add proper print function
+# see dmcognigen print.decode_tbls
    return(df)
 
 
@@ -162,6 +163,8 @@ if(!rlang::quo_is_null(enquo(missing_where))){
 #' @export
 #'
 
+# get missing combos should not rely on contents
+#
 
 get_missing_combos <-  function(data,...){
 
@@ -195,7 +198,7 @@ get_missing_combos <-  function(data,...){
 
     if(!length(mismatch)==0){
 
-      cli::cli_warn("{.val {mismatch}} did not have any missings to count")
+      cli::cli_alert_info("{.val {mismatch}} did not have any missings to count")
 
     }
 
