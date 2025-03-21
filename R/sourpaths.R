@@ -109,9 +109,11 @@ sourpaths <- function(full.names=TRUE,path=NULL,
 
 #' most recent
 #'
-#' @param path filepath
-#' @param pattern one or more regex patters e.g. c("dm","lb")
-#'
+#' @param path filepath passed to
+#' \code{path} argument in fs::dir_ls(). Defaut is /dataorig
+#' @param pattern one or more regex patters e.g. c("dm","lb") to be passed to
+#' \code{regexp} argument in fs::dir_ls()
+#' @param newest_only return all paths or just the newest default is \code{TRUE}
 #' @return data frame
 #' @export
 #'
@@ -123,6 +125,12 @@ sourpaths <- function(full.names=TRUE,path=NULL,
 
 most_recent <- function(path=NULL,pattern=NULL,newest_only=TRUE){
 
+
+  short <- NULL
+  modification_time <- NULL
+  desc <- NULL
+  newest <- NULL
+  short_date <- NULL
 
   if(!sweet_asmbdat()){
     cli::cli_warn("Intended for use in 'asmbdat' directory")

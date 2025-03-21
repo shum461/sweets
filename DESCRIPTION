@@ -8,6 +8,8 @@ License: MIT + file LICENSE
 URL: https://shum461.github.io/sweets/
 Imports: 
     assertthat,
+    readr,
+    tibble,
     rlang,
     brio,
     cli,

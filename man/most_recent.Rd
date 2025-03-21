@@ -7,9 +7,13 @@
 most_recent(path = NULL, pattern = NULL, newest_only = TRUE)
 }
 \arguments{
-\item{path}{filepath}
+\item{path}{filepath passed to
+\code{path} argument in fs::dir_ls(). Defaut is /dataorig}
 
-\item{pattern}{one or more regex patters e.g. c("dm","lb")}
+\item{pattern}{one or more regex patters e.g. c("dm","lb") to be passed to
+\code{regexp} argument in fs::dir_ls()}
+
+\item{newest_only}{return all paths or just the newest default is \code{TRUE}}
 }
 \value{
 data frame
