@@ -67,6 +67,6 @@ Delete <- NULL
 
   output_data <- data[-rows_to_delete]
 
-  brio::write_lines(x=output_data,file=path,append=FALSE)
+ readr::write_lines(x=output_data,file=path,append=FALSE)
 
 }

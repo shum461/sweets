@@ -3,7 +3,7 @@
 #' @param data data to observe
 #' @param missing_where combinations of any variable of choice
 #' @return A data frame with name, label (if it exists), n_missing, pct_missing if there are any missings and class.
-#'
+#' @importFrom rlang :=
 #' @examples
 #' \dontrun{
 #'
@@ -23,6 +23,14 @@
 
 sweet_contents <- function(data,missing_where=NULL){
 
+
+enquo <- NULL
+value <- NULL
+name <- NULL
+n_cumulative <- NULL
+n <- NULL
+pct <- NULL
+ends_with <- NULL
 
 
 if(!rlang::quo_is_null(enquo(missing_where))){
