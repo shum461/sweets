@@ -135,7 +135,7 @@ if(!rlang::quo_is_null(enquo(missing_where))){
 
 }
 
-
+#' print.sweet_contents
 #' @rdname print.sweet_contents
 #' @export
 print.sweet_contents <- function(x, ...) {
