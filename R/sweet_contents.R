@@ -129,8 +129,17 @@ if(!rlang::quo_is_null(enquo(missing_where))){
 
 # TODO add proper print function
 # see dmcognigen print.decode_tbls
+   structure(df, class = c("sweet_contents", class(df)))
+
    return(df)
 
+}
+
+
+#' @rdname print.sweet_contents
+#' @export
+print.sweet_contents <- function(x, ...) {
+  print.default(x, n = Inf, ...)
 
 }
 
