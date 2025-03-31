@@ -264,3 +264,4 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   return(df5)
 
 }
+

@@ -120,26 +120,39 @@ if(!rlang::quo_is_null(enquo(missing_where))){
 }
 
 
-  attr(df,"sweet_contents") <- TRUE
+  #attr(df,"sweet_contents") <- TRUE
 
    df <- df %>%
    dplyr::select(-ends_with("missing_where_NULL")) %>%
-   dplyr::mutate(dplyr::across(dplyr::starts_with("missing_where_"),~dplyr::na_if(.x,""))) %>%
-   data.frame()
+   dplyr::mutate(dplyr::across(dplyr::starts_with("missing_where_"),~dplyr::na_if(.x,"")))
 
 # TODO add proper print function
 # see dmcognigen print.decode_tbls
-   structure(df, class = c("sweet_contents", class(df)))
+
+
+  #vctrs::new_data_frame(df, class = c("my_tbl", "tbl"))
+
+df <- structure(tibble::as_tibble(df), class = c("sweet_contents_tbl", class(df)))
 
    return(df)
 
 }
 
-#' print.sweet_contents
-#' @rdname print.sweet_contents
+
+#' tbl_sum.sweet_contents
+#' @rdname tbl_sum.sweet_contents_tbl
 #' @export
-print.sweet_contents <- function(x, ...) {
-  print.default(x, n = Inf, ...)
+tbl_sum.sweet_contents_tbl <- function(x, ...) {
+  c("Hello" = "world!")
+}
+
+
+#' print.sweet_contents
+#' @rdname print.sweet_contents_tbl
+#' @export
+print.sweet_contents_tbl <- function(x, ...) {
+
+pillar:::print.tbl(x, n = 200, ...)
 
 }
 
