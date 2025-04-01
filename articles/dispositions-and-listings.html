@@ -349,9 +349,9 @@ should be 7 tables in our listings.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> CDISCPILOT01       50 Analyst-Identified Outliers                                 1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> CDISCPILOT02       50 Analyst-Identified Outliers                                 1</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="add-listings">Add listings<a class="anchor" aria-label="anchor" href="#add-listings"></a>
-</h4>
+<div class="section level3">
+<h3 id="add-listing-tables">Add listing tables<a class="anchor" aria-label="anchor" href="#add-listing-tables"></a>
+</h3>
 <p>Again we take our <code>broken_pk_samples</code>dataset consisting of
 the analysis ready dataset plus the deleted records that have been
 removed during the build and now added back. Listings are simply a
@@ -359,8 +359,8 @@ consolidation of one or more tables. These tables need to be customized
 to show variables that make sense for each deletion reason. Perhaps we
 would want to show <code>TRT</code> or <code>ACTARM</code> for
 <strong>Placebo Group Not Included in the Analysis</strong> or
-<code>DTTM</code> for <strong>Missing Sample Date and/or
-Time.</strong></p>
+<code>DTTM</code> for <strong>Missing Sample Date and/or Time.</strong>
+Try to use source variables over build variables especially if</p>
 <p>If your dataset has labels, the label will appear as the variable
 name on the table. To turn this off populate <code>...</code> of
 <code><a href="../reference/add_listing_to_report.html">add_listing_to_report()</a></code> using
@@ -396,7 +396,7 @@ customization to <code><a href="../reference/listing_table.html">listing_table()
 <span>    <span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">STUDYID</span><span class="op">==</span><span class="st">'CDISCPILOT01'</span>, <span class="va">DELFN</span> <span class="op">==</span> <span class="fl">9</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">STUDYID</span>, <span class="va">USUBJID</span>, <span class="va">DTTM</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>,<span class="va">DTTM</span>,<span class="va">VISIT</span>,<span class="va">PCTPT</span>,<span class="va">PCTEST</span>,<span class="va">DVIDC</span>,<span class="va">DV</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>,<span class="va">DTTM</span>,<span class="va">VISIT</span>,<span class="va">PCTPT</span>,<span class="va">PCTEST</span>,<span class="va">PCSTRESN</span><span class="op">)</span>,</span>
 <span>    title <span class="op">=</span> <span class="st">"Study 01 Missing Concentration Value"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/add_listing_to_report.html">add_listing_to_report</a></span><span class="op">(</span></span>
@@ -404,7 +404,7 @@ customization to <code><a href="../reference/listing_table.html">listing_table()
 <span>    <span class="va">broken_pk_samples</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">STUDYID</span><span class="op">==</span><span class="st">'CDISCPILOT01'</span>, <span class="va">DELFN</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">STUDYID</span>, <span class="va">USUBJID</span>, <span class="va">DTTM</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>,<span class="va">DTTM</span>,<span class="va">VISIT</span>,<span class="va">PCTPT</span>,<span class="va">PCTEST</span>,<span class="va">DVIDC</span>,<span class="va">DV</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>,<span class="va">DTTM</span>,<span class="va">VISIT</span>,<span class="va">PCTPT</span>,<span class="va">PCTEST</span>,<span class="va">PCSTRESN</span><span class="op">)</span>,</span>
 <span>    title <span class="op">=</span> <span class="st">"Study 01 Missing Sample Date and/or Time"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/add_listing_to_report.html">add_listing_to_report</a></span><span class="op">(</span></span>
@@ -451,7 +451,7 @@ customization to <code><a href="../reference/listing_table.html">listing_table()
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> There are now <span style="color: #0000BB;">3</span> listings total.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> New listing attributes:</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 7 cols</span></span>
+<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 6 cols</span></span>
 <span><span class="co">#&gt; - show_cols: all</span></span>
 <span><span class="co">#&gt; - use_attributes: all</span></span>
 <span><span class="co">#&gt; - title 1: 'Study 01 Missing Concentration Value'</span></span>
@@ -459,7 +459,7 @@ customization to <code><a href="../reference/listing_table.html">listing_table()
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> There are now <span style="color: #0000BB;">4</span> listings total.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> New listing attributes:</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 7 cols</span></span>
+<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 6 cols</span></span>
 <span><span class="co">#&gt; - show_cols: all</span></span>
 <span><span class="co">#&gt; - use_attributes: all</span></span>
 <span><span class="co">#&gt; - title 1: 'Study 01 Missing Sample Date and/or Time'</span></span>
@@ -487,79 +487,44 @@ customization to <code><a href="../reference/listing_table.html">listing_table()
 <span><span class="co">#&gt; - show_cols: all</span></span>
 <span><span class="co">#&gt; - use_attributes: all</span></span>
 <span><span class="co">#&gt; - title 1: 'Study 02 Analyst-Identified Outliers'</span></span></code></pre></div>
-<p>Take a look at your deletion report contents</p>
+<p><code><a href="../reference/get_listing_info.html">get_listing_info()</a></code> allows you to see the listings added
+to the deletion report. This can be useful when troubleshooting or
+comparing disposition counts to listings.<code>id_var</code> argument
+adds subject counts. Default is <code>USUBJID</code>. Change it to
+<code>ID</code> or <code>SUBJID</code> etc. based on your dataset or
+ignore it by setting to <code>none</code></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">del_report</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A report specification: 0 pages</span></span></span>
-<span><span class="co">#&gt; - file_path: ''</span></span>
-<span><span class="co">#&gt; - output_type: TXT</span></span>
-<span><span class="co">#&gt; - units: inches</span></span>
-<span><span class="co">#&gt; - orientation: landscape</span></span>
-<span><span class="co">#&gt; - margins: top 0.5 bottom 0.5 left 1 right 1</span></span>
-<span><span class="co">#&gt; - content: </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 689 rows 3 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 01 Placebo Group Not Included in the Analysis'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=689</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 429 rows 4 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 02 Placebo Group Not Included in the Analysis'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=429</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 7 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 01 Missing Concentration Value'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=8</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 8 rows 7 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 01 Missing Sample Date and/or Time'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=8</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 13 rows 7 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 02 Missing Sample Date and/or Time'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=13</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 1 rows 7 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 01 Analyst-Identified Outliers'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=1</span></span>
-<span><span class="co">#&gt; - align: left</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A table specification:</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- data: tibble 'listing' 1 rows 7 cols</span></span>
-<span><span class="co">#&gt; - show_cols: all</span></span>
-<span><span class="co">#&gt; - use_attributes: all</span></span>
-<span><span class="co">#&gt; - title 1: 'Study 02 Analyst-Identified Outliers'</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A text specification: 1 words</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; </span>- text: </span></span>
-<span><span class="co">#&gt; N=1</span></span>
-<span><span class="co">#&gt; - align: left</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_listing_info.html">get_listing_info</a></span><span class="op">(</span><span class="va">del_report</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 5</span></span></span>
+<span><span class="co">#&gt;   Title                                               listing            n_USUBJID     n n_cumulative</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                               <span style="color: #949494; font-style: italic;">&lt;named list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Study 01 Placebo Group Not Included in the Analysis <span style="color: #949494;">&lt;tibble [689 × 3]&gt;</span>        53   689          706</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Study 02 Placebo Group Not Included in the Analysis <span style="color: #949494;">&lt;tibble [429 × 4]&gt;</span>        33   429         <span style="text-decoration: underline;">1</span>149</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Study 01 Missing Concentration Value                <span style="color: #949494;">&lt;tibble [8 × 6]&gt;</span>           2     8            9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Study 01 Missing Sample Date and/or Time            <span style="color: #949494;">&lt;tibble [8 × 6]&gt;</span>           2     8           17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Study 02 Missing Sample Date and/or Time            <span style="color: #949494;">&lt;tibble [13 × 7]&gt;</span>          1    13          720</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Study 01 Analyst-Identified Outliers                <span style="color: #949494;">&lt;tibble [1 × 7]&gt;</span>           1     1            1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Study 02 Analyst-Identified Outliers                <span style="color: #949494;">&lt;tibble [1 × 7]&gt;</span>           1     1          707</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_listing_info.html">get_listing_info</a></span><span class="op">(</span><span class="va">del_report</span>,id_var <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">listing</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">"none"</span> is not a variable in deletion report and will be ignored</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
+<span><span class="co">#&gt;   Title                                USUBJID     DTTM                VISIT    PCTPT            PCTEST     DVIDC                               DV</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Study 02 Analyst-Identified Outliers 01-718-1254 2013-07-10 <span style="color: #949494;">00:30:00</span> BASELINE 30 Min Post-dose XANOMELINE Xanomeline Concentration (ug/mL) 0.507</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="write-listings">Write Listings<a class="anchor" aria-label="anchor" href="#write-listings"></a>
+</h3>
+<p>file path by default will be the path specified during report
+initialization with <code>build_report</code>. The <code>...</code> is
+for extra arguments to be passed to <a href="https://reporter.r-sassy.org/reference/write_report.html" class="external-link">reporter::write_report()</a></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Write Listings</span></span>
+<span><span class="fu"><a href="../reference/write_listings_report.html">write_listings_report</a></span><span class="op">(</span><span class="va">del_report</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
