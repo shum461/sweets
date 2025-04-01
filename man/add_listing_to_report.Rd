@@ -23,16 +23,27 @@ is used to build listings one deletion flag at a time
 }
 \examples{
 \dontrun{
-# A deletion report with DELFN 1 and 9 added
 
-
+del_report <- del_report \%>\%
  add_listing_to_report(
-   listing = pd_delimp \%>\%
-     filter(DELFN == 9) \%>\%
-     select(STUDY, USUBJID, VISIT, DV, SCF),
-   title = "Missing Concentration Value"
- )
+   listing_table(
+     pk_delimp_mod  \%>\%
+       filter(DELFN == 5, DVID == 2) \%>\%
+       arrange(STUDYID, USUBJID, DTTM) \%>\%
+       select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
+     "Compound A (ng/mL), Sample Not Done / Not Recorded"
+   ) \%>\%
+ add_listing_to_report(
+   listing_table(
+     pk_delimp_mod \%>\%
+       filter(DELFN == 5, DVID == 3) \%>\%
+       arrange(STUDYID, USUBJID, DTTM) \%>\%
+       select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
+     "Compound B (ng/mL), Sample Not Done / Not Recorded"
+   ))
+
 }
+
 
 
 

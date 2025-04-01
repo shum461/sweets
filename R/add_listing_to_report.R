@@ -2,7 +2,7 @@
 #' make a listing table
 #'
 #' @description
-#' `listing_table()`
+#' `listing_table()` prepares a data subset to be added to `add_listing_to_report()`
 #' is used to build listing tables for each deletion data subset
 #' listing tables can then be modified further using [reporter::define()] or sent to [add_listing_to_report()] where
 #' listing tables are the second argument
@@ -26,7 +26,7 @@
 #'        select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
 #'      "Compound A (ng/mL), Sample Not Done / Not Recorded"
 #'    ) %>%
-#'      define(ROW, label = " ", width = 0.15, id_var = TRUE, align = "left")
+#'      define(VISIT, label = "Cool New Visit Label", width = 0.15, id_var = TRUE, align = "left")
 #'  )  %>%
 #'  add_listing_to_report(
 #'    listing_table(
@@ -39,6 +39,7 @@
 #'
 #'
 #'}
+
 
 listing_table <- function(listing,title,...){
 
@@ -73,16 +74,27 @@ listing_table <- function(listing,title,...){
 #' @export
 #' @examples
 #' \dontrun{
-#' # A deletion report with DELFN 1 and 9 added
 #'
-#'
+#'del_report <- del_report %>%
 #'  add_listing_to_report(
-#'    listing = pd_delimp %>%
-#'      filter(DELFN == 9) %>%
-#'      select(STUDY, USUBJID, VISIT, DV, SCF),
-#'    title = "Missing Concentration Value"
-#'  )
+#'    listing_table(
+#'      pk_delimp_mod  %>%
+#'        filter(DELFN == 5, DVID == 2) %>%
+#'        arrange(STUDYID, USUBJID, DTTM) %>%
+#'        select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
+#'      "Compound A (ng/mL), Sample Not Done / Not Recorded"
+#'    ) %>%
+#'  add_listing_to_report(
+#'    listing_table(
+#'      pk_delimp_mod %>%
+#'        filter(DELFN == 5, DVID == 3) %>%
+#'        arrange(STUDYID, USUBJID, DTTM) %>%
+#'        select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
+#'      "Compound B (ng/mL), Sample Not Done / Not Recorded"
+#'    ))
+#'
 #'}
+#'
 #'
 #'
 #'

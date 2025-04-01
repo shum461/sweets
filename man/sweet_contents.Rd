@@ -15,7 +15,9 @@ sweet_contents(data, missing_where = NULL)
 A data frame with name, label (if it exists), n_missing, pct_missing if there are any missings and class.
 }
 \description{
-Description of all variables
+similar to Hmisc::contents() but is able to be filtered
+and uses\code{missing_where} to show combinations of missing variables e.g. WEIGHT missing
+where VISIT is "Screening, Week 1"
 }
 \examples{
 \dontrun{
@@ -24,7 +26,8 @@ Description of all variables
   sweet_contents()
 
   broken_pk \%>\%
-  sweet_contents(missing_where = DVID)
+  sweet_contents(missing_where = DVID)\%>\%
+  filter(stringr::str_detect(name,"^EX"))
 
   broken_pk \%>\%
   sweet_contents(missing_where = VISIT)

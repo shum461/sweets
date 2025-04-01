@@ -1,5 +1,8 @@
 #' Description of all variables
-#'
+#' @description
+#' similar to Hmisc::contents() but is able to be filtered
+#' and uses`missing_where` to show combinations of missing variables e.g. WEIGHT missing
+#' where VISIT is "Screening, Week 1"
 #' @param data data to observe
 #' @param missing_where combinations of any variable of choice
 #' @return A data frame with name, label (if it exists), n_missing, pct_missing if there are any missings and class.
@@ -11,7 +14,8 @@
 #'   sweet_contents()
 #'
 #'   broken_pk %>%
-#'   sweet_contents(missing_where = DVID)
+#'   sweet_contents(missing_where = DVID)%>%
+#'   filter(stringr::str_detect(name,"^EX"))
 #'
 #'   broken_pk %>%
 #'   sweet_contents(missing_where = VISIT)

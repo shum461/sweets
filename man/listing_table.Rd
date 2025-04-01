@@ -18,7 +18,7 @@ Selected variables should be source variables if possible}
 A deletion report object that includes all added listings and their titles of class "table_spec" & "list"
 }
 \description{
-\code{listing_table()}
+\code{listing_table()} prepares a data subset to be added to \code{add_listing_to_report()}
 is used to build listing tables for each deletion data subset
 listing tables can then be modified further using \code{\link[reporter:define]{reporter::define()}} or sent to \code{\link[=add_listing_to_report]{add_listing_to_report()}} where
 listing tables are the second argument
@@ -37,7 +37,7 @@ del_report <- del_report \%>\%
        select(ROW,USUBJID, VISIT, PCTPT, PCTESTCD, PCSTAT),
      "Compound A (ng/mL), Sample Not Done / Not Recorded"
    ) \%>\%
-     define(ROW, label = " ", width = 0.15, id_var = TRUE, align = "left")
+     define(VISIT, label = "Cool New Visit Label", width = 0.15, id_var = TRUE, align = "left")
  )  \%>\%
  add_listing_to_report(
    listing_table(
