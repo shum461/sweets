@@ -35,3 +35,8 @@ remotes::install_github("shum461/sweets")
 
 - See full details in the [dispositions-and-listings
   vignette](https://shum461.github.io/sweets/articles/dispositions-and-listings.html).
+
+  🍬 Auto archive datasets before re-running code `sweet_save()`  
+  🍬 Hmisc::contents() but sweeter `sweet_contents()🍬`See if modeling
+  is underway `check_models()`  
+  🍬 Explore source datasets `most_recent()`

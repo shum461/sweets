@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-Some sprinkles to make [dmcognigen](https://github.com/simulations-plus/dmcognigen "dmcognigen GitHub") a little sweeter
+🧁 Some sprinkles to make [dmcognigen](https://github.com/simulations-plus/dmcognigen "dmcognigen GitHub") a little sweeter
 
 ## Installation
 
