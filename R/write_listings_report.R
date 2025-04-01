@@ -70,3 +70,71 @@ Delete <- NULL
  readr::write_lines(x=output_data,file=path,append=FALSE)
 
 }
+
+
+
+#' Get listing report info and data
+#'
+#'@description
+#' Get all of the data frames used when creating listing report
+#'
+#' @param deletion_report A deletion report built using `build_report()` and `add_listing_to_report()`
+#'
+#' @examples
+#' \dontrun{
+#' get_listing_df(del_report)
+#' }
+#'
+#'
+
+
+get_listing_info <- function(deletion_report,id_var=USUBJID){
+
+# TODO Check Class
+
+
+listing_table_objs <- seq(from = 1, to = length(deletion_report$content), by = 2)
+
+listing_titles <- purrr::map_chr(listing_table_objs, ~deletion_report$content[[.x]]$object$titles[[1]][[1]])
+
+listings_dataframes <- listing_table_objs %>%
+  purrr::map(~deletion_report$content[[.x]]$object$data) %>%
+  purrr::set_names(listing_titles)
+
+
+listings_tibble <-
+  tibble::tibble(Title=names(listings_dataframes),listing=listings_dataframes)
+
+listing_data_names <- listing_table_objs %>%
+purrr::map_dfr(~deletion_report$content[[.x]]$object$data) %>%
+names()
+
+id_var_quoted <- rlang::as_name(rlang::enquo(id_var))
+
+if(id_var_quoted %in% listing_data_names) {
+
+subjects <- purrr::map2_dfr(listing_table_objs, listing_titles, ~{
+  data <- deletion_report$content[[.x]]$object$data
+  if (nrow(data) > 0) {
+    data %>% dplyr::mutate(Title = .y)
+  } else {
+    data
+  }
+}) %>% cnt(Title, n_distinct_vars = {{id_var}})
+
+
+listings_tibble %>%
+dplyr::left_join(subjects,by="Title")
+
+} else{
+
+  cli::cli_inform("{.val {id_var_quoted}} is not a variable in deletion report
+                  and will be ignored")
+  listings_tibble
+}
+
+}
+
+
+
+
