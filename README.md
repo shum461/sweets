@@ -6,10 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-**S**teve’s **W**orkflow for **E**numerating **E**legant **T**ext
-listings and disposition**S**
-
-Some sprinkles to make
+🧁 Some sprinkles to make
 [dmcognigen](https://github.com/simulations-plus/dmcognigen "dmcognigen GitHub")
 a little sweeter
 

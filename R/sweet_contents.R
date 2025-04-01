@@ -143,15 +143,9 @@ df <- structure(tibble::as_tibble(df), class = c("sweet_contents_tbl", class(df)
 }
 
 
-#' tbl_sum.sweet_contents
-#' @rdname tbl_sum.sweet_contents_tbl
-#' @export
-tbl_sum.sweet_contents_tbl <- function(x, ...) {
-  c("Hello" = "world!")
-}
-
-
 #' print.sweet_contents
+#' @param ... print arguments
+#' @param x object of class sweet_contents_tbl
 #' @rdname print.sweet_contents_tbl
 #' @export
 print.sweet_contents_tbl <- function(x, ...) {

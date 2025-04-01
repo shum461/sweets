@@ -6,6 +6,11 @@
 \usage{
 \method{print}{sweet_contents_tbl}(x, ...)
 }
+\arguments{
+\item{x}{object of class sweet_contents_tbl}
+
+\item{...}{print arguments}
+}
 \description{
 print.sweet_contents
 }

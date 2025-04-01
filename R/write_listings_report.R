@@ -79,10 +79,11 @@ Delete <- NULL
 #' Get all of the data frames used when creating listing report
 #'
 #' @param deletion_report A deletion report built using `build_report()` and `add_listing_to_report()`
+#' @param id_var id variable such as USUBJID, ID, SUBJID. Default is USUBJID. Set to "none" to ignore
 #' @export
 #' @examples
 #' \dontrun{
-#' get_listing_df(del_report)
+#' get_listing_info(del_report)
 #' }
 #'
 #'
@@ -90,7 +91,15 @@ Delete <- NULL
 
 get_listing_info <- function(deletion_report,id_var=USUBJID){
 
-# TODO Check Class
+USUBJID <- NULL
+cnt <- NULL
+Title <- NULL
+name <- NULL
+n_missing <- NULL
+starts_with <- NULL
+. <- NULL
+
+# Check Class
 
   if(!"report_spec" %in% class(deletion_report)){
 

@@ -8,13 +8,15 @@ get_listing_info(deletion_report, id_var = USUBJID)
 }
 \arguments{
 \item{deletion_report}{A deletion report built using \code{build_report()} and \code{add_listing_to_report()}}
+
+\item{id_var}{id variable such as USUBJID, ID, SUBJID. Default is USUBJID. Set to "none" to ignore}
 }
 \description{
 Get all of the data frames used when creating listing report
 }
 \examples{
 \dontrun{
-get_listing_df(del_report)
+get_listing_info(del_report)
 }
 
 
