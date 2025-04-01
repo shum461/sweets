@@ -267,15 +267,13 @@ del_report <- del_report %>%
     filter(STUDYID=='CDISCPILOT02', DELFN == 50) %>%
     arrange(STUDYID, USUBJID, DTTM) %>%
     select(USUBJID,DTTM,VISIT,PCTPT,PCTEST,DVIDC,DV),
-    title = "Study 02 Analyst-Identified Outliers") %>%
-    reporter::define(label_row = TRUE)
+    title = "Study 02 Analyst-Identified Outliers") 
   )
 
  
   
 ```
 
-\|
 
 Take a look at your deletion report contents
 

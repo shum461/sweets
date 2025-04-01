@@ -3,6 +3,7 @@
 S3method(print,sweet_contents_tbl)
 export("%>%")
 export(add_listing_to_report)
+export(build_report)
 export(check_models)
 export(cnt_chocula)
 export(delimp_biscuit)
