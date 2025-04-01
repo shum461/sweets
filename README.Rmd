@@ -33,8 +33,13 @@ remotes::install_github("shum461/sweets")
 
 ## Create dispositions and listings
 
-- Track counts of flagged or deleted records in a table using the`sweet_disposition()` function.
-- Deletion listings are tables of records removed for each deletion flag. Sweets builds off of the [reporter package](https://reporter.r-sassy.org/index.html) to include a workflow of initializing a listing report `build_report()`, populating the report `add_listing_to_report()` and writing the listings `write_listings_report()`                              
+-   Track counts of flagged or deleted records in a table using the`sweet_disposition()` function.
 
-- See full details in the [dispositions-and-listings vignette](https://shum461.github.io/sweets/articles/dispositions-and-listings.html).
+-   Deletion listings are tables of records removed for each deletion flag. Sweets builds off of the [reporter package](https://reporter.r-sassy.org/index.html) to include a workflow of initializing a listing report `build_report()`, populating the report `add_listing_to_report()` and writing the listings `write_listings_report()`
 
+-   See full details in the [dispositions-and-listings vignette](https://shum461.github.io/sweets/articles/dispositions-and-listings.html).
+
+    🍬 Auto archive datasets before re-running code `sweet_save()` \
+    🍬 Hmisc::contents() but sweeter `sweet_contents()` \
+    🍬 See if modeling is underway `check_models()` \
+    🍬 Explore source datasets `most_recent()`
