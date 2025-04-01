@@ -92,6 +92,12 @@ get_listing_info <- function(deletion_report,id_var=USUBJID){
 
 # TODO Check Class
 
+  if(!"report_spec" %in% class(deletion_report)){
+
+    cli::cli_abort("class of deletion_report must be {.val report_spec}")
+
+  }
+
 
 listing_table_objs <- seq(from = 1, to = length(deletion_report$content), by = 2)
 
