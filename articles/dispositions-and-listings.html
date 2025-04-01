@@ -289,10 +289,9 @@ disposition table with only DELFN greater than 7</p>
 <span>                         <span class="op">)</span></span>
 <span></span>
 <span><span class="fu">writexl</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/writexl//reference/write_xlsx.html" class="external-link">write_xlsx</a></span><span class="op">(</span><span class="va">disposition_tabs</span>,<span class="st">"disposition.xlsx"</span><span class="op">)</span></span></code></pre></div>
-<div class="callout-warning">
-<p>It is best practice to refer back to the counts in your code and
-check the results against your newly generated disposition table</p>
-</div>
+<p><strong>🍭 It is best practice to refer back to the counts in your
+code and check the results against your newly generated disposition
+table</strong></p>
 <div class="section level4">
 <h4 id="troubleshooting">Troubleshooting<a class="anchor" aria-label="anchor" href="#troubleshooting"></a>
 </h4>
@@ -315,7 +314,7 @@ DELFN</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="deletion-listings">Deletion Listings<a class="anchor" aria-label="anchor" href="#deletion-listings"></a>
+<h2 id="deletion-listings">4) Deletion Listings<a class="anchor" aria-label="anchor" href="#deletion-listings"></a>
 </h2>
 <div class="section level4">
 <h4 id="setup-the-report">Setup the report<a class="anchor" aria-label="anchor" href="#setup-the-report"></a>
@@ -325,10 +324,8 @@ DELFN</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">del_report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_report.html">build_report</a></span><span class="op">(</span>file_name <span class="op">=</span> <span class="st">"pk-deletion-listings"</span><span class="op">)</span></span></code></pre></div>
-<div class="callout-tip">
-<p>Listings are project specific. Always have a discussion about what
-should be included.</p>
-</div>
+<p><strong>🍩 Listings are project specific. Always have a discussion
+about what should be included.</strong></p>
 <p>Check the flags and reasons in the disposition with samples excluded
 &gt; 0. We don’t need empty tables in our listings (e.g. CDISCPILOT02
 Missing Concentration Value). These remaining 7 rows indicate there
@@ -358,9 +355,10 @@ removed during the build and now added back. Listings are simply a
 consolidation of one or more tables. These tables need to be customized
 to show variables that make sense for each deletion reason. Perhaps we
 would want to show <code>TRT</code> or <code>ACTARM</code> for
-<strong>Placebo Group Not Included in the Analysis</strong> or
-<code>DTTM</code> for <strong>Missing Sample Date and/or Time.</strong>
-Try to use source variables over build variables especially if</p>
+<code>Placebo Group Not Included in the Analysis</code> or
+<code>DTTM</code> for <code>Missing Sample Date and/or Time.</code></p>
+<p><strong>🍰 Try to use source variables over build variables in your
+listings.</strong></p>
 <p>If your dataset has labels, the label will appear as the variable
 name on the table. To turn this off populate <code>...</code> of
 <code><a href="../reference/add_listing_to_report.html">add_listing_to_report()</a></code> using
