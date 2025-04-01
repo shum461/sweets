@@ -160,7 +160,7 @@ writexl::write_xlsx(disposition_tabs,"disposition.xlsx")
 
 ```
 
-::: callout-warning
+::: {.callout-warning}
 It is best practice to refer back to the counts in your code and check the results against your newly generated disposition table
 :::
 
@@ -188,7 +188,7 @@ del_report <- build_report(file_name = "pk-deletion-listings")
 
 ```
 
-::: callout-tip
+::: {.callout-tip}
 Listings are project specific. Always have a discussion about what should be included.
 :::
 
@@ -200,9 +200,9 @@ disposition_table %>%
   select(STUDYID,`Flag #`,`Reason for Deletion`,`Samples Excluded`)
 ```
 
-### Add listings
+## Add listing tables
 
-Again we take our `broken_pk_samples`dataset consisting of the analysis ready dataset plus the deleted records that have been removed during the build and now added back. Listings are simply a consolidation of one or more tables. These tables need to be customized to show variables that make sense for each deletion reason. Perhaps we would want to show `TRT` or `ACTARM` for **Placebo Group Not Included in the Analysis** or `DTTM` for **Missing Sample Date and/or Time.**
+Again we take our `broken_pk_samples`dataset consisting of the analysis ready dataset plus the deleted records that have been removed during the build and now added back. Listings are simply a consolidation of one or more tables. These tables need to be customized to show variables that make sense for each deletion reason. Perhaps we would want to show `TRT` or `ACTARM` for **Placebo Group Not Included in the Analysis** or `DTTM` for **Missing Sample Date and/or Time.** Try to use source variables over build variables especially if 
 
 If your dataset has labels, the label will appear as the variable name on the table. To turn this off populate `...` of `add_listing_to_report()` using `use_attributes = 'none'`. See [reporter::create_table()](https://reporter.r-sassy.org/reference/create_table.html) for additional table specifications. If you need a quick way to add, format, or modify an existing label add [reporter::define()](https://reporter.r-sassy.org/reference/define.html) customization to `listing_table()`
 
@@ -234,7 +234,7 @@ del_report <- del_report %>%
     broken_pk_samples %>% 
     filter(STUDYID=='CDISCPILOT01', DELFN == 9) %>%
     arrange(STUDYID, USUBJID, DTTM) %>%
-    select(USUBJID,DTTM,VISIT,PCTPT,PCTEST,DVIDC,DV),
+    select(USUBJID,DTTM,VISIT,PCTPT,PCTEST,PCSTRESN),
     title = "Study 01 Missing Concentration Value")
   ) %>%
   add_listing_to_report(
@@ -242,7 +242,7 @@ del_report <- del_report %>%
     broken_pk_samples %>% 
     filter(STUDYID=='CDISCPILOT01', DELFN == 10) %>%
     arrange(STUDYID, USUBJID, DTTM) %>%
-    select(USUBJID,DTTM,VISIT,PCTPT,PCTEST,DVIDC,DV),
+    select(USUBJID,DTTM,VISIT,PCTPT,PCTEST,PCSTRESN),
     title = "Study 01 Missing Sample Date and/or Time")
   ) %>%
   add_listing_to_report(
@@ -274,9 +274,25 @@ del_report <- del_report %>%
   
 ```
 
-
-Take a look at your deletion report contents
+`get_listing_info()` allows you to see the listings added to the deletion report. This can be useful when troubleshooting or comparing disposition counts to listings.`id_var` argument adds subject counts. Default is `USUBJID`. Change it to `ID` or `SUBJID` etc. based on your dataset or ignore it by setting to `none`
 
 ```{r}
-del_report
+get_listing_info(del_report)
+```
+
+```{r}
+get_listing_info(del_report,id_var = "none") %>%
+  dplyr::slice(7) %>%
+  tidyr::unnest(listing)
+```
+
+## Write Listings
+
+file path by default will be the path specified during report initialization with `build_report`. The `...` is for extra arguments to be passed to [reporter::write_report()](https://reporter.r-sassy.org/reference/write_report.html)
+
+```{r, eval=FALSE}
+
+# Write Listings
+write_listings_report(del_report)
+
 ```
