@@ -4,7 +4,7 @@
 #' Output path is set while initializing using `build_report()`
 #' This function differs from `reporter::write_report()`
 #' by including the N= counts at the end of each listing
-#'
+#' @export
 #' @param deletion_report A deletion report built using `build_report()` and `add_listing_to_report()`
 #' @param ...  Extra arguments to be passed to `reporter::write_report()`
 #' @examples
@@ -79,7 +79,7 @@ Delete <- NULL
 #' Get all of the data frames used when creating listing report
 #'
 #' @param deletion_report A deletion report built using `build_report()` and `add_listing_to_report()`
-#'
+#' @export
 #' @examples
 #' \dontrun{
 #' get_listing_df(del_report)
