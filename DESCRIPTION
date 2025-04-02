@@ -6,32 +6,36 @@ Authors@R:
 Description: Disposition Tables and Listings.
 License: MIT + file LICENSE
 URL: https://shum461.github.io/sweets/
+Depends: 
+    R (>= 2.10)
 Imports: 
     assertthat,
-    readr,
-    tibble,
-    rlang,
+    blastula,
     brio,
     cli,
     dmcognigen,
     dplyr,
     DT,
     fs,
+    glue,
     lubridate,
     magrittr,
+    pillar,
     purrr,
+    readr,
     reporter,
     rio,
+    rlang,
+    stringr,
+    tibble,
     tidyr,
+    todor,
     tools,
     utilscognigen
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    utils,
-    waldo,
-    withr
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Remotes: 
@@ -39,8 +43,6 @@ Remotes:
     simulations-plus/utilscognigen
 Config/testthat/edition: 3
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends: 
-    R (>= 2.10)
-LazyData: true
