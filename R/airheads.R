@@ -17,6 +17,8 @@
 
 airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
 
+  if(interactive()){
+
   options(todor_patterns = c("FINDINGS","FINDING","NOTE", "NOTES","QUESTIONS","QUESTION","TODO"))
 
   if (missing(qc_program_path) || is.null(qc_program_path)) {
@@ -26,7 +28,8 @@ airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
 
 
   if (!exists("qc_data_path") && is.null(qc_data_path)) {
-    cli::cli_abort("provide a qc_data_path")
+    cli::cli_abort("provide a qc_data_path
+                   or have one already loaded in Global Env")
   }
 
 
@@ -61,7 +64,7 @@ airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
     body = blastula::md(
       glue::glue(
         "
-    <div style='font-family: Arial, sans-serif; font-size: 11px;'>
+    <div style='font-family: Arial, sans-serif; font-size: 14.5px;'>
         DM Data QC has been completed as requested, details follow. Please let me know if you have any questions.
     <p><strong>Full path and file name:</strong><br>{new_path}</p>
 
@@ -71,14 +74,14 @@ airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
 
     <p><strong>File date/time stamp:</strong><br>{mod_time}</p>
 
-    <p><strong>Finding(s):</strong><br> {notes_messages}</p>
+    <p><strong>Finding(s):</strong><br> {findings_messages}</p>
 
-	<p><strong>Note(s):</strong><br> {findings_messages}</p>
+	<p><strong>Note(s):</strong><br> {notes_messages}</p>
        CPP-DM-1.6_FormC DM Data QC Findings
       </div>
       "
       )
     )
   )
-
+}
 }
