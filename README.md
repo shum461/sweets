@@ -38,5 +38,6 @@ remotes::install_github("shum461/sweets")
 
   🍬 Auto archive datasets before re-running code `sweet_save()`  
   🍬 Hmisc::contents() but sweeter `sweet_contents()`  
+  🍬 Track QC notes and findings `airheads()`  
   🍬 See if modeling is underway `check_models()`  
   🍬 Explore source datasets `most_recent()`
