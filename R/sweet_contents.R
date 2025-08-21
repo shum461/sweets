@@ -37,7 +37,7 @@ pct <- NULL
 ends_with <- NULL
 
 
-if(!rlang::quo_is_null(enquo(missing_where))){
+if(!rlang::quo_is_null(rlang::enquo(missing_where))){
 
   if( any(
       !data %>%

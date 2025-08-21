@@ -8,7 +8,8 @@ License: MIT + file LICENSE
 URL: https://shum461.github.io/sweets/
 Depends: 
     R (>= 2.10)
-Imports: 
+Imports:
+    pkgload (>= 1.4.0),
     assertthat,
     blastula,
     brio,
@@ -38,7 +39,8 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Remotes: 
+Remotes:
+    r-lib/pkgload,
     simulations-plus/dmcognigen,
     simulations-plus/utilscognigen
 Config/testthat/edition: 3
