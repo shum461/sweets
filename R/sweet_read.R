@@ -37,6 +37,7 @@ sweet_read <- function(path, ..., record_input = TRUE) {
   )
   attr(out, "path") <- path
   attr(out, "mtime") <- file.info(path)$mtime
+  attr(out, "var_labels") <- sapply(out, function(x) attr(x, "label"), USE.NAMES = TRUE)
   class(out) <- unique(c("sweet_read", class(out)))
   out
 }
