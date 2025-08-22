@@ -1,6 +1,7 @@
 #' Description of all variables
 #' @description
 #' similar to Hmisc::contents() but is able to be filtered
+#' If data is object of class `sweet_read` it will also show the path and last modified time of source.
 #' and uses`missing_where` to show combinations of missing variables e.g. WEIGHT missing
 #' where VISIT is "Screening, Week 1"
 #' @param data data to observe
