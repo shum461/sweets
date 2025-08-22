@@ -16,6 +16,7 @@ A data frame with name, label (if it exists), n_missing, pct_missing if there ar
 }
 \description{
 similar to Hmisc::contents() but is able to be filtered
+If data is object of class \code{sweet_read} it will also show the path and last modified time of source.
 and uses\code{missing_where} to show combinations of missing variables e.g. WEIGHT missing
 where VISIT is "Screening, Week 1"
 }

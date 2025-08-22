@@ -49,6 +49,30 @@ if(!rlang::quo_is_null(rlang::enquo(missing_where))){
 }
 
 
+# distinct records
+distinct_records <- data %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(
+    dplyr::everything(),
+    names_to = "name",
+    values_to = "n_distinct"
+  )
+
+# ranges
+ranges <- purrr::map_chr(data, function(x) {
+  if (is.numeric(x)) {
+    rng <- round(range(x, na.rm = TRUE),2)
+    paste0(rng[1], "-", rng[2])
+  } else {
+    NA_character_
+  }
+})
+
+
+range_tbl <- tibble(
+  name = names(ranges),
+  range = ranges
+)
 
   missings <- data %>%
     dplyr::select(dplyr::where(~any(is.na(.))),-{{missing_where}}) %>%
@@ -134,11 +158,30 @@ if(!rlang::quo_is_null(rlang::enquo(missing_where))){
 # see dmcognigen print.decode_tbls
 
 
+ df <- df %>%
+    dplyr::left_join(distinct_records,by="name") %>%
+    dplyr::left_join(range_tbl,by="name") %>%
+    dplyr::select(dplyr::everything(),-class,class)
+
   #vctrs::new_data_frame(df, class = c("my_tbl", "tbl"))
 
 df <- structure(tibble::as_tibble(df), class = c("sweet_contents_tbl", class(df)))
 
-   return(df)
+
+  if (inherits(data, "sweet_read")) {
+    records <- nrow(data)
+    path <- attr(data, "path")
+    mtime <- attr(data, "mtime")
+    cli::cli_h1("File Information")
+    cli::cli_alert_info("Path {.file {path}}
+                        Last Modified: {.emph {mtime}}
+                        Records: {.val {records}}")
+    cli::cli_h1("")
+  }
+
+
+
+return(df)
 
 }
 
