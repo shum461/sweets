@@ -146,7 +146,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   affected_Subjects <- data %>%
     cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}},
                     prop = FALSE, pct = FALSE) %>%
-    dplyr::select({{group_vars}},DELFN,SubjAffected=n_name) %>%
+    dplyr::select({{group_vars}}, DELFN, SubjAffected = dplyr::all_of(n_name)) %>%
     dplyr::mutate(SubjAffected=ifelse(DELFN==0,0,SubjAffected))
 
   # Unique aff subjects
@@ -213,7 +213,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   df3 <- df2 %>%
     dplyr::full_join(affected_Subjects,by=c(grp_vars,"DELFN"))%>%
     dplyr::select(dplyr::starts_with("DELF"),
-                  grp_vars,
+                  dplyr::all_of(grp_vars),
                   SubjAffected,
                   SamplesExcluded,
                   SubjExcluded,

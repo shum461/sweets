@@ -37,7 +37,7 @@ pool_disposition <- function(disp_table){
 
   pooled_disp <- disp_table %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(dplyr::across(grp_vars, as.character)) %>%
+    dplyr::mutate(dplyr::across(dplyr::all_of(grp_vars), as.character)) %>%
     dplyr::group_by(`Flag #`, `Reason for Deletion`) %>%
     dplyr::summarise(
       dplyr::across(
