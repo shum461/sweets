@@ -15,3 +15,5 @@ secrets.yml
 secrets.yml.example
 AGENTS.md
 CLAUDE.md
+
+*.tar.gz
