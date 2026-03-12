@@ -1,13 +1,19 @@
 Package: sweets
-Title: Disposition Tables and Listings
-Version: 0.0.0.9000
+Title: Disposition Tables and Listings for Clinical Pharmacokinetic Data
+Version: 0.1.0
 Authors@R: 
     person("Steve", "Hummel", , "steve.hummel@simulations-plus.com", role = c("aut", "cre"))
-Description: Disposition Tables and Listings.
+Description: Provides a toolkit for building clinical pharmacokinetic (PK) data
+    disposition tables and deletion listings. Counts and reports records excluded
+    during the data build process using DELFN deletion flag variables, producing
+    audit-ready disposition tables and pooled summaries. Also includes utilities
+    for reading and archiving data files, summarizing dataset contents, and
+    generating formatted deletion listing reports.
 License: MIT + file LICENSE
-URL: https://shum461.github.io/sweets/
+URL: https://shum461.github.io/sweets/, https://github.com/shum461/sweets
+BugReports: https://github.com/shum461/sweets/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Imports:
     blastula,
     brio,
@@ -25,7 +31,6 @@ Imports:
     reporter,
     rio,
     rlang,
-    sjlabelled,
     stringr,
     tibble,
     tidyr,
@@ -35,6 +40,7 @@ Suggests:
     knitr,
     rmarkdown,
     rstudioapi,
+    sjlabelled,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
