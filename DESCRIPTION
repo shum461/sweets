@@ -32,16 +32,14 @@ Imports:
     tibble,
     tidyr,
     todor,
-    tools,
-    utilscognigen
+    tools
 Suggests: 
     knitr,
     rmarkdown,
+    rstudioapi,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Remotes:
-    simulations-plus/utilscognigen
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

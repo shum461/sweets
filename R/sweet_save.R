@@ -90,12 +90,6 @@ sweet_save <- function(asmbdat_path=getwd(),archive_path=NULL,...){
       "2. Set {.arg archive_path} to an existing archive directory e.g. 2023-10-27"))
   }
 
-  # Are to and from the same project?
-  if (!utilscognigen::path_project(path = dirname(to_path))== utilscognigen::path_project(path = data_dir)){
-    cli::cli_abort(message="{.file {to_path}} and {.file {data_dir}}
-       are different projects!")
-  }
-
   # check if the provided archive_path can be parsed as ymd by lubridate
   if (!is.null(archive_path) && !file.exists(to_path) && is.na(suppressWarnings(lubridate::parse_date_time(basename(to_path),orders = "ymd")))) {
     cli::cli_alert_warning(message=c("The new directory name {.file {basename(to_path)}}",
@@ -112,7 +106,7 @@ sweet_save <- function(asmbdat_path=getwd(),archive_path=NULL,...){
 
   data_dir_info %>%
     dplyr::pull(path) %>%
-    purrr::walk( ~ utilscognigen::file_copy(from = .x, to = to_path))
+    purrr::walk( ~ fs::file_copy(path = .x, new_path = file.path(to_path, basename(.x)), overwrite = TRUE))
 
 
   cli::cli_alert_success(

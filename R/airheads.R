@@ -23,7 +23,11 @@ airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
 
   if (missing(qc_program_path) || is.null(qc_program_path)) {
 
-    qc_program_path <- utilscognigen::get_source_file()
+    qc_program_path <- if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
+      rstudioapi::getActiveDocumentContext()$path
+    } else {
+      cli::cli_abort("Cannot detect source file path outside of RStudio. Please supply {.arg qc_program_path}.")
+    }
   }
 
 

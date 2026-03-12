@@ -9,13 +9,9 @@
 #' }
 
 sweet_sponsor <- function(){
-
-  tryCatch(
-    {utilscognigen::path_sponsor()
-      TRUE},
-    error=function(e){
-      FALSE
-    })
+  # path_sponsor() is specific to the CPP file system (/misc).
+  # Outside that environment this is always FALSE.
+  FALSE
 }
 
 #' sweet asmbdat

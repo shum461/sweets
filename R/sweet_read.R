@@ -1,13 +1,12 @@
-#' Flexible file reader for SAS, XPT, and CSV formats, with optional input recording
+#' Flexible file reader for SAS, XPT, and CSV formats
 #'
 #' Reads a dataset from a path, supporting \code{.sas7bdat}, \code{.xpt}, and \code{.csv} files.
 #' The original file path is retained as an attribute \code{"path"} on the returned data.
 #' The file modification time (\code{"mtime"}) is also set as an attribute.
-#' If \code{record_input} is \code{TRUE}, records the input file path via \code{utilscognigen::record_input()}.
 #'
 #' @param path Character. Path to the file to read.
 #' @param ... Additional arguments passed to \code{data.table::fread} (for .CSVs).
-#' @param record_input Logical. If \code{TRUE}, records the input file path via \code{utilscognigen::record_input()}. Default is \code{TRUE}.
+#' @param record_input Logical. Reserved for future use; currently ignored. Default is \code{TRUE}.
 #'
 #' @return A data.frame or data.table with attributes \code{"path"} and \code{"mtime"} and class \code{"sweet_read"}.
 #' @examples
@@ -21,9 +20,6 @@
 sweet_read <- function(path, ..., record_input = TRUE) {
   if (!file.exists(path)) {
     cli::cli_abort("File not found: {.file {path}}")
-  }
-  if (isTRUE(record_input)) {
-    utilscognigen::record_input(path)
   }
   ext <- tolower(tools::file_ext(path))
   out <- switch(
