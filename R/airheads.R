@@ -53,16 +53,14 @@ airheads <- function(qc_data_path=NULL,qc_program_path=NULL){
     dplyr::filter(stringr::str_detect(message,"FIND")) %>%
     dplyr::mutate(message=gsub("\\[.*?\\]", "", message))
 
-  findings_messages <-   findings$message %>%
-    paste("<li>", ., "</li>", collapse = "\n")
+  findings_messages <- paste("<li>", findings$message, "</li>", collapse = "\n")
 
   notes <- todor::todor(file= qc_program_path,output = "list") %>%
     purrr::map_dfr( ~ tibble::tibble(message = .x[["message"]])) %>%
     dplyr::filter(stringr::str_detect(message,"NOTE")) %>%
     dplyr::mutate(message=gsub("\\[.*?\\]", "", message))
 
-  notes_messages <-   notes$message %>%
-    paste("<li>", ., "</li>", collapse = "\n")
+  notes_messages <- paste("<li>", notes$message, "</li>", collapse = "\n")
 
   blastula::compose_email(
     body = blastula::md(

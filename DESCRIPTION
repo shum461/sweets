@@ -5,11 +5,12 @@ Authors@R:
     person("Steve", "Hummel", , "steve.hummel@simulations-plus.com", role = c("aut", "cre"))
 Description: Provides a toolkit for building clinical pharmacokinetic (PK) data
     disposition tables and deletion listings. Counts and reports records excluded
-    during the data build process using DELFN deletion flag variables, producing
+    during the data build process using 'DELFN' deletion flag variables, producing
     audit-ready disposition tables and pooled summaries. Also includes utilities
     for reading and archiving data files, summarizing dataset contents, and
     generating formatted deletion listing reports.
 License: MIT + file LICENSE
+Language: en-US
 URL: https://shum461.github.io/sweets/, https://github.com/shum461/sweets
 BugReports: https://github.com/shum461/sweets/issues
 Depends: 

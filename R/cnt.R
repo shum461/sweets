@@ -77,6 +77,8 @@ cnt <- function(
   # variables that will be dropped based on user flags
   drop_vars_names <- c("n_cumulative", "prop", "pct")[!c(n_cumulative, prop, pct)]
 
+  n_rows <- nrow(.data)
+
   .data %>%
     dplyr::group_by(...) %>%
     dplyr::summarise(
@@ -86,8 +88,8 @@ cnt <- function(
         .names = "n_{col}"
       ),
       n = dplyr::n(),
-      prop = n / nrow(.),
-      pct  = 100 * n / nrow(.),
+      prop = n / n_rows,
+      pct  = 100 * n / n_rows,
       .groups = "drop"
     ) %>%
     dplyr::mutate(

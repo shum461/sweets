@@ -17,3 +17,6 @@
 ^secrets\.yml\.example$
 ^AGENTS\.md$
 ^CLAUDE\.md$
+^data-raw$
+^dev$
+^pk-deletion-listings\.txt$

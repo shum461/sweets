@@ -70,7 +70,7 @@ ranges <- purrr::map_chr(data, function(x) {
 })
 
 
-range_tbl <- tibble(
+range_tbl <- tibble::tibble(
   name = names(ranges),
   range = ranges
 )
@@ -250,12 +250,12 @@ get_missing_combos <-  function(data,...){
 
 
    missing_vars_arg <- data %>%
-   dplyr::filter(name %in% c(...)) %>%
-   dplyr::pull(name)
+   dplyr::filter(.data$name %in% c(...)) %>%
+   dplyr::pull(.data$name)
 
     actual_missing_vars <- data %>%
-    dplyr::filter(!is.na(n_missing)) %>%
-    dplyr::pull(name)
+    dplyr::filter(!is.na(.data$n_missing)) %>%
+    dplyr::pull(.data$name)
 
     mismatch <- setdiff(missing_vars_arg,actual_missing_vars)
 
@@ -272,11 +272,11 @@ get_missing_combos <-  function(data,...){
   cli::cli_alert_info("{.val {where_name}} where {.val {missing_vars_arg}} is missing")
 
   data %>%
-  dplyr::filter(name %in% missing_vars_arg) %>%
+  dplyr::filter(.data$name %in% missing_vars_arg) %>%
   tidyr::separate_rows(missing_where, sep =",") %>%
   dplyr::select(name,missing_where) %>%
   tidyr::drop_na() %>%
-  dplyr::pull(starts_with("missing_where"))
+  dplyr::pull(dplyr::starts_with("missing_where"))
 
 }
 
