@@ -7,7 +7,7 @@
 #' @param data data to observe
 #' @param missing_where combinations of any variable of choice
 #' @return A data frame with name, label (if it exists), n_missing, pct_missing if there are any missings and class.
-#' @importFrom rlang :=
+#' @importFrom rlang := .data
 #' @examples
 #' \dontrun{
 #'
@@ -274,7 +274,7 @@ get_missing_combos <-  function(data,...){
   data %>%
   dplyr::filter(.data$name %in% missing_vars_arg) %>%
   tidyr::separate_rows(missing_where, sep =",") %>%
-  dplyr::select(name,missing_where) %>%
+  dplyr::select("name", missing_where) %>%
   tidyr::drop_na() %>%
   dplyr::pull(dplyr::starts_with("missing_where"))
 
