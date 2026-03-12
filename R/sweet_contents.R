@@ -192,10 +192,9 @@ return(df)
 #' @param x object of class sweet_contents_tbl
 #' @rdname print.sweet_contents_tbl
 #' @export
-print.sweet_contents_tbl <- function(x, ...) {
-
-pillar:::print.tbl(x, n = 200, ...)
-
+print.sweet_contents_tbl <- function(x, n = 200, ...) {
+  class(x) <- setdiff(class(x), "sweet_contents_tbl")
+  print(x, n = n, ...)
 }
 
 

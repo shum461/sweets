@@ -21,7 +21,6 @@ Imports:
     haven,
     lubridate,
     magrittr,
-    pillar,
     purrr,
     readr,
     reporter,
