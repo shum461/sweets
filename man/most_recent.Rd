@@ -8,7 +8,7 @@ most_recent(path = NULL, pattern = NULL, newest_only = TRUE)
 }
 \arguments{
 \item{path}{filepath passed to
-\code{path} argument in fs::dir_ls(). Defaut is /dataorig}
+\code{path} argument in fs::dir_ls(). Default is /dataorig}
 
 \item{pattern}{one or more regex patters e.g. c("dm","lb") to be passed to
 \code{regexp} argument in fs::dir_ls()}

@@ -107,7 +107,7 @@ sourpaths <- function(full.names=TRUE,path=NULL,
 #' most recent
 #'
 #' @param path filepath passed to
-#' \code{path} argument in fs::dir_ls(). Defaut is /dataorig
+#' \code{path} argument in fs::dir_ls(). Default is /dataorig
 #' @param pattern one or more regex patters e.g. c("dm","lb") to be passed to
 #' \code{regexp} argument in fs::dir_ls()
 #' @param newest_only return all paths or just the newest default is \code{TRUE}
