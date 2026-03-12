@@ -15,6 +15,10 @@ print(x, n = 200, ...)
 
   object of class sweet_contents_tbl
 
+- n:
+
+  maximum number of rows to print
+
 - ...:
 
-  print arguments
+  additional arguments passed to print
