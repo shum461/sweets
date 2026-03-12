@@ -1,8 +1,7 @@
 # sweets
 
-🧁 Some sprinkles to make
-[dmcognigen](https://github.com/simulations-plus/dmcognigen "dmcognigen GitHub")
-a little sweeter
+🧁 Tools for building clinical PK data disposition tables and deletion
+listings.
 
 ## Installation
 
