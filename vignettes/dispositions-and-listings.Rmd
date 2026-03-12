@@ -27,7 +27,6 @@ pre, code {white-space:pre !important; overflow-x:auto}
 
 ```{r setup, warning=FALSE}
 library(sweets)
-library(dmcognigen)
 library(dplyr,warn.conflicts = FALSE)
 
 ```
