@@ -4,7 +4,7 @@
 \alias{print.sweet_contents_tbl}
 \title{print.sweet_contents}
 \usage{
-\method{print}{sweet_contents_tbl}(x, ...)
+\method{print}{sweet_contents_tbl}(x, n = 200, ...)
 }
 \arguments{
 \item{x}{object of class sweet_contents_tbl}

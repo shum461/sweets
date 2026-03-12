@@ -2,7 +2,7 @@
 % Please edit documentation in R/sweet_read.R
 \name{sweet_read}
 \alias{sweet_read}
-\title{Flexible file reader for SAS, XPT, and CSV formats, with optional input recording}
+\title{Flexible file reader for SAS, XPT, and CSV formats}
 \usage{
 sweet_read(path, ..., record_input = TRUE)
 }
@@ -11,7 +11,7 @@ sweet_read(path, ..., record_input = TRUE)
 
 \item{...}{Additional arguments passed to \code{data.table::fread} (for .CSVs).}
 
-\item{record_input}{Logical. If \code{TRUE}, records the input file path via \code{utilscognigen::record_input()}. Default is \code{TRUE}.}
+\item{record_input}{Logical. Reserved for future use; currently ignored. Default is \code{TRUE}.}
 }
 \value{
 A data.frame or data.table with attributes \code{"path"} and \code{"mtime"} and class \code{"sweet_read"}.
@@ -20,7 +20,6 @@ A data.frame or data.table with attributes \code{"path"} and \code{"mtime"} and 
 Reads a dataset from a path, supporting \code{.sas7bdat}, \code{.xpt}, and \code{.csv} files.
 The original file path is retained as an attribute \code{"path"} on the returned data.
 The file modification time (\code{"mtime"}) is also set as an attribute.
-If \code{record_input} is \code{TRUE}, records the input file path via \code{utilscognigen::record_input()}.
 }
 \examples{
 \dontrun{
