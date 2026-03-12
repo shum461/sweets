@@ -102,8 +102,7 @@ listing_table <- function(listing,title,...){
 
 add_listing_to_report <- function(deletion_report,listing,...){
 
-  assertthat::assert_that(!purrr::is_null(deletion_report),
-                          msg = "Build deletion report first")
+  if (is.null(deletion_report)) cli::cli_abort("Build deletion report first")
 
   # TODO add row count -- all equal?
   # Warning--Check for duplicated table titles

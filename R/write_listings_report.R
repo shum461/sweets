@@ -21,8 +21,7 @@ write_listings_report = function(deletion_report,...){
 
 Lines <- NULL
 Delete <- NULL
-  assertthat::assert_that(!purrr::is_null(deletion_report),
-                          msg = "Build deletion report first")
+  if (is.null(deletion_report)) cli::cli_abort("Build deletion report first")
 
   if(!class(deletion_report)[1]=="report_spec"){
     cli::cli_abort(c(
