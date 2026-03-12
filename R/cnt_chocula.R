@@ -56,10 +56,10 @@ cnt_chocula <- function(df1,df2,vars,...){
 
 
   df1 %>%
-    dmcognigen::cnt(dplyr::across(vars),...) %>%
+    cnt(dplyr::across(vars),...) %>%
     dplyr::full_join(
       df2 %>%
-        dmcognigen::cnt(dplyr::across(vars),...),by=vars
+        cnt(dplyr::across(vars),...),by=vars
     ) %>%
     dplyr::rename_with(~gsub(".x$","_1",.)) %>%
     dplyr::rename_with(~gsub(".y$","_2",.)) %>%

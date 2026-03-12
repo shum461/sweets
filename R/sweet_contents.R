@@ -88,7 +88,7 @@ range_tbl <- tibble(
 
   # Show where variables are missing
   missing_by_dvid <- data %>%
-    dmcognigen::cnt(dplyr::across(dplyr::any_of(missings),is.na),{{missing_where}}) %>%
+    cnt(dplyr::across(dplyr::any_of(missings),is.na),{{missing_where}}) %>%
     tidyr::pivot_longer(dplyr::any_of(missings)) %>%
     dplyr::filter(value==TRUE) %>%
     dplyr::group_by(name) %>%
@@ -105,7 +105,7 @@ range_tbl <- tibble(
 
  # Add percents and counts of missing
   missing_percents <- names(data) %>%
-    purrr::map_dfr(~ dmcognigen::cnt(data,is.na(data[[.x]]),pct=TRUE) %>%
+    purrr::map_dfr(~ cnt(data,is.na(data[[.x]]),pct=TRUE) %>%
                      dplyr::mutate(name=.x)) %>%
     dplyr::filter(dplyr::if_any(dplyr::starts_with("is.na"))==TRUE) %>%
     dplyr::select(-dplyr::starts_with("is.na"),-n_cumulative) %>%

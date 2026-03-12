@@ -14,7 +14,6 @@ Imports:
     brio,
     cli,
     data.table,
-    dmcognigen,
     dplyr,
     DT,
     fs,
@@ -42,7 +41,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    simulations-plus/dmcognigen,
     simulations-plus/utilscognigen
 Config/testthat/edition: 3
 Encoding: UTF-8

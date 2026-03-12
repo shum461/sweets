@@ -73,11 +73,11 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
   # Data with no DELFN filtered out
   nothing_removed <- data %>%
-    dmcognigen::cnt(Flag=0,dplyr::across({{group_vars}}),
+    cnt(Flag=0,dplyr::across({{group_vars}}),
                     n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE)
 
   # Name of the n distinct var, usually n_ID or n_USUBJID
-  n_name <-  dmcognigen::cnt(data, dplyr::across({{group_vars}}),
+  n_name <-  cnt(data, dplyr::across({{group_vars}}),
                              n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE) %>%
     dplyr::select(dplyr::starts_with("n_"),-n_cumulative) %>%
     names()
@@ -137,14 +137,14 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
 
     count_of_DELFNC <- length(unique(unique_DELFNC_check$DELFN[unique_DELFNC_check$N_DELFNC>1]))
 
-    cli::cli_alert_danger(c("{cli::qty(count_of_DELFNC)} DELFN{?s} {.val {unique_DELFNC_check %>% filter(N_DELFNC>1) %>% distinct(DELFN)}}",
+    cli::cli_alert_danger(c("{cli::qty(count_of_DELFNC)} DELFN{?s} {.val {unique_DELFNC_check %>% dplyr::filter(N_DELFNC>1) %>% dplyr::distinct(DELFN)}}",
                             "{cli::qty(count_of_DELFNC)} {?has/have} non unique DELFNC{?s}"))
 
   }
 
   # Counts of subjects
   affected_Subjects <- data %>%
-    dmcognigen::cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}},
+    cnt(dplyr::across({{group_vars}}),DELFN,n_distinct_vars = {{subjid}},
                     prop = FALSE, pct = FALSE) %>%
     dplyr::select({{group_vars}},DELFN,SubjAffected=n_name) %>%
     dplyr::mutate(SubjAffected=ifelse(DELFN==0,0,SubjAffected))
@@ -152,7 +152,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   # Unique aff subjects
   unique_aff_subjects <-  data %>%
     dplyr::filter(DELFN>0) %>%
-    dmcognigen::cnt(n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE)%>%
+    cnt(n_distinct_vars = {{subjid}},prop = FALSE, pct = FALSE)%>%
     dplyr::pull(1)
 
   # DELFNs with USUBJID in list col
@@ -173,7 +173,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   df_deletions <- purrr::map_dfr(deletion_flags,~
                                    data %>%
                                    dplyr::filter(DELFN==0| DELFN>.x | DELFN %in% keeps) %>%
-                                   dmcognigen::cnt(DELFN=.x,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}}),
+                                   cnt(DELFN=.x,dplyr::across({{group_vars}}), n_distinct_vars = {{subjid}}),
                                  prop = FALSE, pct = FALSE) %>%
     dplyr::group_by(dplyr::across({{group_vars}}))
   # n_name is usually n_USUBJID or n_ID from cnt()
@@ -183,7 +183,7 @@ sweet_disposition <- function(data, subjid, group_vars, cnt_n_keeps=NULL,
   df_keeps <- purrr::map_dfr(keeps,~
     data %>%
     dplyr::filter(DELFN==0|DELFN>.x) %>%
-    dmcognigen::cnt(DELFN=.x,dplyr::across({{group_vars}}),
+    cnt(DELFN=.x,dplyr::across({{group_vars}}),
         n_distinct_vars = {{subjid}}),prop = FALSE, pct = FALSE) %>%
     dplyr::group_by(dplyr::across({{group_vars}}))
 
