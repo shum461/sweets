@@ -8,3 +8,12 @@
 ^LICENSE\.md$
 ^doc$
 ^Meta$
+^\.composer$
+^\.vienna$
+^\.vscode$
+^mcp\.json$
+^config\.yml$
+^secrets\.yml$
+^secrets\.yml\.example$
+^AGENTS\.md$
+^CLAUDE\.md$
