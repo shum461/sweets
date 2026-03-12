@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/shum461/sweets/blob/v0.1.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/shum461/sweets/blob/main/DESCRIPTION)
 
 Hummel S (2026). *sweets: Disposition Tables and Listings for Clinical
 Pharmacokinetic Data*. R package version 0.1.0,

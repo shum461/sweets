@@ -12,7 +12,7 @@ most_recent(path = NULL, pattern = NULL, newest_only = TRUE)
 
 - path:
 
-  filepath passed to `path` argument in fs::dir_ls(). Defaut is
+  filepath passed to `path` argument in fs::dir_ls(). Default is
   /dataorig
 
 - pattern:
