@@ -16,10 +16,11 @@ knitr::opts_chunk$set(
 # sweets <a href="https://github.com/shum461/sweets"><img src="man/figures/logo.png" alt="sweets website" align="right" height="190"/></a>
 
 <!-- badges: start -->
-
+[![R-CMD-check](https://github.com/shum461/sweets/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shum461/sweets/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/shum461/sweets/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/shum461/sweets/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
-🧁 Some sprinkles to make [dmcognigen](https://github.com/simulations-plus/dmcognigen "dmcognigen GitHub") a little sweeter
+🧁 Tools for building clinical PK data disposition tables and deletion listings.
 
 ## Installation
 
