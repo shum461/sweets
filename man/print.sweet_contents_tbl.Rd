@@ -9,7 +9,9 @@
 \arguments{
 \item{x}{object of class sweet_contents_tbl}
 
-\item{...}{print arguments}
+\item{n}{maximum number of rows to print}
+
+\item{...}{additional arguments passed to print}
 }
 \description{
 print.sweet_contents

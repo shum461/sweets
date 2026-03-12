@@ -188,8 +188,9 @@ return(df)
 
 
 #' print.sweet_contents
-#' @param ... print arguments
 #' @param x object of class sweet_contents_tbl
+#' @param n maximum number of rows to print
+#' @param ... additional arguments passed to print
 #' @rdname print.sweet_contents_tbl
 #' @export
 print.sweet_contents_tbl <- function(x, n = 200, ...) {
